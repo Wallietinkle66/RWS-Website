@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Service Booking – Reliable Water Services Company</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --navy: #1B3A5C; --teal: #2E7EAA; --sky: #5BB8E8;
+    --gray: #7A7A8C; --light-bg: #F4F8FB; --white: #FFFFFF;
+    --border: #D0E4F0; --success: #2E9E6B; --error: #C0392B;
+    --shadow: 0 2px 16px rgba(27,58,92,0.10); --radius: 10px;
+    --font-display: 'Playfair Display', serif; --font-body: 'DM Sans', sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-body); background: var(--light-bg); color: var(--navy); min-height: 100vh; }
+
+  /* HEADER */
+  .site-header { background: var(--white); border-bottom: 2.5px solid var(--sky); padding: 0 40px; display: flex; align-items: center; justify-content: space-between; min-height: 80px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(27,58,92,0.08); }
+  .header-logo img { height: 52px; }
+  .header-company h1 { font-family: var(--font-display); font-size: 1.35rem; color: var(--navy); letter-spacing: 0.04em; text-transform: uppercase; text-align: center; }
+  .header-contact { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+  .header-contact a { display: flex; align-items: center; gap: 7px; color: var(--teal); font-size: 0.85rem; font-weight: 500; text-decoration: none; }
+  .whatsapp-badge { background: #25D366; color: white !important; padding: 3px 10px 3px 7px; border-radius: 20px; font-size: 0.78rem !important; font-weight: 600 !important; }
+
+  /* PROGRESS */
+  .progress-bar-wrap { background: var(--white); border-bottom: 1px solid var(--border); padding: 10px 40px; }
+  .progress-track { max-width: 900px; margin: 0 auto; display: flex; align-items: center; }
+  .prog-step { display: flex; align-items: center; gap: 8px; flex: 1; }
+  .prog-dot { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 700; border: 2px solid var(--border); color: var(--gray); background: white; flex-shrink: 0; }
+  .prog-dot.active { border-color: var(--teal); background: var(--teal); color: white; }
+  .prog-dot.done { border-color: var(--success); background: var(--success); color: white; }
+  .prog-label { font-size: 0.75rem; font-weight: 600; color: var(--gray); }
+  .prog-label.active { color: var(--teal); }
+  .prog-line { flex: 1; height: 2px; background: var(--border); margin: 0 8px; }
+  .prog-line.done { background: var(--success); }
+
+  /* BREADCRUMB */
+  .breadcrumb-bar { background: var(--navy); padding: 0 40px; display: flex; align-items: center; gap: 0; height: 44px; }
+  .bc-btn { display: flex; align-items: center; gap: 8px; padding: 0 18px; height: 44px; font-family: var(--font-body); font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.55); background: none; border: none; cursor: default; letter-spacing: 0.04em; text-transform: uppercase; }
+  .bc-btn.active { color: var(--sky); font-weight: 600; border-bottom: 3px solid var(--sky); }
+  .bc-btn.done { color: rgba(255,255,255,0.75); cursor: pointer; }
+  .bc-btn.done:hover { color: white; }
+  .bc-sep { color: rgba(255,255,255,0.3); }
+  .bc-num { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; background: rgba(255,255,255,0.15); }
+  .bc-btn.active .bc-num { background: var(--sky); color: var(--navy); }
+  .bc-btn.done .bc-num { background: var(--success); color: white; }
+
+  /* MAIN */
+  .page-main { max-width: 900px; margin: 36px auto 60px; padding: 0 20px; }
+  .page-title-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+  .page-title { font-family: var(--font-display); font-size: 1.6rem; color: var(--navy); }
+  .page-title span { color: var(--teal); }
+  .page-save-btn { display: flex; align-items: center; gap: 7px; background: var(--navy); color: white; border: none; padding: 9px 20px; border-radius: var(--radius); font-family: var(--font-body); font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+  .page-save-btn:hover { background: var(--teal); }
+
+  /* CLIENT CATEGORY BANNER */
+  .cat-banner { background: linear-gradient(90deg, var(--navy) 0%, var(--teal) 100%); border-radius: 12px; padding: 14px 22px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+  .cat-banner-text { color: white; font-size: 0.85rem; }
+  .cat-banner-text strong { font-size: 1rem; margin-left: 8px; }
+  .cat-badge { background: rgba(255,255,255,0.18); color: white; padding: 6px 16px; border-radius: 20px; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.04em; }
+
+  /* SERVICE SELECTOR BUTTONS */
+  .service-selector-section { margin-bottom: 28px; }
+  .service-selector-title { font-size: 0.75rem; font-weight: 700; color: var(--gray); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 12px; }
+  .service-btns-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .svc-select-btn {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 18px;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    background: var(--white);
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--navy);
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .svc-select-btn:hover:not(.selected):not(.disabled) { border-color: var(--sky); background: #F0F9FF; }
+  .svc-select-btn.selected { border-color: var(--teal); background: #EAF4FB; color: var(--teal); }
+  .svc-select-btn.disabled { opacity: 0.5; cursor: not-allowed; }
+  .svc-select-btn .svc-icon { font-size: 1.1rem; }
+  .svc-tooltip { position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); background: var(--navy); color: white; font-size: 0.7rem; padding: 6px 10px; border-radius: 6px; white-space: nowrap; max-width: 200px; white-space: normal; line-height: 1.4; pointer-events: none; opacity: 0; transition: opacity 0.2s; z-index: 20; font-weight: 400; }
+  .svc-select-btn:hover .svc-tooltip { opacity: 1; }
+
+  /* SERVICE CARD */
+  .service-card { background: var(--white); border-radius: 14px; box-shadow: var(--shadow); border: 1px solid var(--border); margin-bottom: 20px; animation: fadeUp 0.35s ease both; }
+  @keyframes fadeUp { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
+
+  .svc-card-header { background: linear-gradient(90deg, #1B3A5C 0%, #234d76 100%); padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; border-radius: 14px 14px 0 0; }
+  .svc-header-left { display: flex; align-items: center; gap: 10px; }
+  .unselect-btn { display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.8); border: 1px solid rgba(255,255,255,0.2); padding: 6px 12px; border-radius: 7px; font-family: var(--font-body); font-size: 0.73rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+  .unselect-btn:hover { background: rgba(192,57,43,0.3); color: white; border-color: rgba(192,57,43,0.5); }
+  .svc-card-title { font-family: var(--font-display); font-size: 0.95rem; color: var(--white); }
+  .svc-tooltip-inline { display: inline-block; width: 16px; height: 16px; background: rgba(91,184,232,0.25); color: var(--sky); border-radius: 50%; text-align: center; line-height: 16px; font-size: 0.65rem; font-weight: 700; cursor: default; margin-left: 6px; position: relative; }
+  .svc-tooltip-inline:hover::after { content: attr(data-tip); position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%); background: var(--navy); border: 1px solid var(--sky); color: white; font-size: 0.7rem; padding: 6px 10px; border-radius: 6px; white-space: nowrap; max-width: 220px; white-space: normal; z-index: 30; font-family: var(--font-body); font-weight: 400; }
+  .svc-header-actions { display: flex; align-items: center; gap: 8px; }
+  .icon-btn { display: flex; flex-direction: column; align-items: center; gap: 2px; background: none; border: none; cursor: pointer; color: rgba(255,255,255,0.7); font-size: 0.62rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 4px 6px; border-radius: 6px; transition: all 0.2s; }
+  .icon-btn:hover { color: var(--sky); background: rgba(255,255,255,0.07); }
+  .icon-btn svg { width: 16px; height: 16px; }
+
+  /* SERVICE FORM ENTRY */
+  .svc-card-body { padding: 20px; }
+  .svc-entry { background: #FAFCFE; border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 12px; position: relative; }
+  .svc-entry-row { display: grid; gap: 14px; }
+  .svc-entry-row-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .svc-entry-row-2 { grid-template-columns: 1fr 1fr; }
+  .svc-entry-row-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+  .svc-entry-row-5 { grid-template-columns: 1.2fr 0.9fr 1fr 0.9fr 0.9fr; }
+  .svc-entry-row-6 { grid-template-columns: 1.1fr 0.9fr 1fr 0.9fr 0.9fr 0.9fr; }
+
+  .field-group { display: flex; flex-direction: column; gap: 5px; }
+  .field-label-row { display: flex; align-items: center; gap: 5px; }
+  .field-label { font-size: 0.72rem; font-weight: 700; color: var(--navy); text-transform: uppercase; letter-spacing: 0.05em; }
+  .tooltip-wrap { position: relative; }
+  .tip-icon { width: 14px; height: 14px; background: var(--border); color: var(--teal); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; font-weight: 700; cursor: default; flex-shrink: 0; }
+  .tip-icon:hover + .tip-box, .tooltip-wrap:hover .tip-box { opacity: 1; }
+  .tip-box { position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%); background: var(--navy); color: white; font-size: 0.7rem; padding: 6px 10px; border-radius: 6px; white-space: nowrap; max-width: 200px; white-space: normal; line-height: 1.4; pointer-events: none; opacity: 0; transition: opacity 0.2s; z-index: 40; }
+  .tip-box::after { content:''; position:absolute; top:100%; left:50%; transform:translateX(-50%); border:5px solid transparent; border-top-color: var(--navy); }
+
+  .field-input, .field-select {
+    width: 100%; padding: 9px 12px; border: 1.5px solid var(--border); border-radius: 7px;
+    font-family: var(--font-body); font-size: 0.84rem; color: var(--navy); background: var(--white);
+    transition: border-color 0.2s; outline: none;
+  }
+  .field-input:focus, .field-select:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(46,126,170,0.10); }
+  .field-input[readonly] { background: #F0F6FB; color: var(--teal); font-weight: 600; cursor: default; }
+  .field-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7' viewBox='0 0 10 7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%232E7EAA' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 30px; cursor: pointer; }
+  .ksh-prefix { display:flex; align-items:center; border: 1.5px solid var(--border); border-radius: 7px; overflow:hidden; transition: border-color 0.2s; }
+  .ksh-prefix:focus-within { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(46,126,170,0.10); }
+  .ksh-label { background: #EAF4FB; padding: 9px 8px; font-size: 0.75rem; font-weight: 700; color: var(--teal); border-right: 1px solid var(--border); white-space: nowrap; }
+  .ksh-prefix input { border: none !important; box-shadow: none !important; border-radius: 0 !important; flex: 1; min-width: 0; background: #F0F6FB; color: var(--teal); font-weight: 600; }
+  .ksh-prefix input:focus { box-shadow: none !important; }
+
+  /* Delete row btn */
+  .delete-entry-btn { position: absolute; top: 10px; right: 10px; background: none; border: none; cursor: pointer; color: #ccc; transition: color 0.2s; padding: 4px; }
+  .delete-entry-btn:hover { color: var(--error); }
+  .delete-entry-btn svg { width: 15px; height: 15px; }
+
+  /* Add service bar */
+  .add-svc-bar { display: flex; align-items: center; gap: 10px; padding: 11px 16px; background: #F0F9FF; border: 1.5px dashed var(--sky); border-radius: 8px; cursor: pointer; transition: all 0.2s; margin-top: 4px; }
+  .add-svc-bar:hover { background: #E4F3FB; border-color: var(--teal); }
+  .add-svc-bar span { font-size: 0.82rem; font-weight: 600; color: var(--teal); }
+  .add-svc-bar .add-icon { width: 22px; height: 22px; background: var(--teal); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1rem; font-weight: 300; flex-shrink: 0; }
+  .add-tooltip { margin-left: auto; }
+
+  /* PROJECT SUMMARY */
+  .summary-section { margin-top: 32px; }
+  .summary-title-row { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+  .summary-title-row h3 { font-family: var(--font-display); font-size: 1.15rem; color: var(--navy); }
+  .summary-card { background: linear-gradient(135deg, var(--navy) 0%, #234d76 100%); border-radius: 14px; padding: 24px; color: white; }
+  .summary-svc-group { margin-bottom: 20px; }
+  .summary-svc-title { font-size: 0.75rem; font-weight: 700; color: var(--sky); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 10px; }
+  .summary-table { width: 100%; border-collapse: collapse; }
+  .summary-table th { font-size: 0.7rem; font-weight: 600; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.05em; padding: 6px 8px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .summary-table td { font-size: 0.82rem; color: rgba(255,255,255,0.88); padding: 8px 8px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .summary-table tr.subtotal-row td { font-weight: 700; color: var(--sky); background: rgba(91,184,232,0.08); }
+  .grand-total-box { background: rgba(91,184,232,0.12); border: 1px solid rgba(91,184,232,0.3); border-radius: 10px; padding: 16px 20px; margin-top: 16px; display: flex; justify-content: space-between; align-items: center; }
+  .gt-label { font-size: 0.9rem; font-weight: 700; color: var(--sky); text-transform: uppercase; letter-spacing: 0.06em; }
+  .gt-values { display: flex; gap: 32px; }
+  .gt-val { text-align: right; }
+  .gt-val .amount { font-family: var(--font-display); font-size: 1.3rem; color: white; font-weight: 700; }
+  .gt-val .label { font-size: 0.7rem; color: rgba(255,255,255,0.5); text-transform: uppercase; }
+  .schedule-note { margin-top: 16px; padding: 12px 16px; background: rgba(255,180,0,0.12); border: 1px solid rgba(255,180,0,0.3); border-radius: 8px; font-size: 0.8rem; color: #FFD080; line-height: 1.6; }
+
+  /* NAV */
+  .nav-row { display: flex; justify-content: space-between; gap: 14px; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .btn-primary { display:flex; align-items:center; gap:8px; background: linear-gradient(135deg, var(--teal), var(--navy)); color:white; border:none; padding:13px 28px; border-radius:10px; font-family:var(--font-body); font-size:0.9rem; font-weight:600; cursor:pointer; transition:transform 0.15s, box-shadow 0.2s; box-shadow: 0 4px 14px rgba(46,126,170,0.35); }
+  .btn-primary:hover { transform:translateY(-2px); box-shadow: 0 6px 20px rgba(46,126,170,0.45); }
+  .btn-secondary { display:flex; align-items:center; gap:8px; background:var(--white); color:var(--navy); border:2px solid var(--border); padding:11px 24px; border-radius:10px; font-family:var(--font-body); font-size:0.9rem; font-weight:600; cursor:pointer; transition:all 0.2s; }
+  .btn-secondary:hover { border-color:var(--teal); color:var(--teal); }
+
+  /* TOAST */
+  .toast { position:fixed; bottom:28px; right:28px; background:var(--success); color:white; padding:12px 22px; border-radius:10px; font-size:0.85rem; font-weight:600; box-shadow:0 4px 20px rgba(0,0,0,0.18); display:flex; align-items:center; gap:8px; transform:translateY(80px); opacity:0; transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1); z-index:1000; }
+  .toast.show { transform:translateY(0); opacity:1; }
+
+  /* Modal */
+  .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.45); display:flex; align-items:center; justify-content:center; z-index:200; opacity:0; pointer-events:none; transition:opacity 0.2s; }
+  .modal-overlay.open { opacity:1; pointer-events:all; }
+  .modal { background:white; border-radius:14px; padding:28px; max-width:400px; width:90%; box-shadow:0 8px 40px rgba(0,0,0,0.2); transform:scale(0.92); transition:transform 0.25s; }
+  .modal-overlay.open .modal { transform:scale(1); }
+  .modal h3 { font-family:var(--font-display); font-size:1.1rem; color:var(--navy); margin-bottom:10px; }
+  .modal p { font-size:0.85rem; color:var(--gray); line-height:1.6; margin-bottom:20px; }
+  .modal-btns { display:flex; gap:12px; justify-content:flex-end; }
+
+  @media (max-width: 700px) {
+    .svc-entry-row-3, .svc-entry-row-4, .svc-entry-row-5, .svc-entry-row-6 { grid-template-columns: 1fr 1fr; }
+    .service-btns-row { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-logo">
+    <img src="Deep_Navy_and_Teal_Water_Droplet_Logo-removebg-preview.png" alt="Logo" onerror="this.style.display='none'"/>
+  </div>
+  <div class="header-company"><h1>Reliable Water Services Company</h1></div>
+  <div class="header-contact">
+    <a href="mailto:info@reliablewaterservices.co.ke">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+      info@reliablewaterservices.co.ke
+    </a>
+    <a href="https://wa.me/254700000000" target="_blank" class="whatsapp-badge">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+      +254 700 000 000 · WhatsApp
+    </a>
+  </div>
+</header>
+
+<!-- PROGRESS -->
+<div class="progress-bar-wrap">
+  <div class="progress-track">
+    <div class="prog-step"><div class="prog-dot done">✓</div><span class="prog-label" style="color:var(--success)">Client Registration</span></div>
+    <div class="prog-line done"></div>
+    <div class="prog-step"><div class="prog-dot active">2</div><span class="prog-label active">Service Booking</span></div>
+    <div class="prog-line"></div>
+    <div class="prog-step"><div class="prog-dot">3</div><span class="prog-label">Confirm & Submit</span></div>
+  </div>
+</div>
+
+<!-- BREADCRUMB -->
+<nav class="breadcrumb-bar">
+  <button class="bc-btn done" onclick="window.location.href='page1-client-registration.html'"><span class="bc-num">✓</span> Client Registration</button>
+  <span class="bc-sep">›</span>
+  <button class="bc-btn active"><span class="bc-num">2</span> Service Booking</button>
+  <span class="bc-sep">›</span>
+  <button class="bc-btn"><span class="bc-num">3</span> Confirm & Submit</button>
+</nav>
+
+<main class="page-main">
+  <div class="page-title-row">
+    <h2 class="page-title">SERVICE <span>BOOKING</span></h2>
+    <button class="page-save-btn" onclick="saveAll()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/><polyline points="7,3 7,8 15,8"/></svg>
+      Save Page
+    </button>
+  </div>
+
+  <!-- Client Category Banner -->
+  <div class="cat-banner" id="cat-banner">
+    <div class="cat-banner-text">Pricing based on your category: <strong id="cat-display">—</strong></div>
+    <span class="cat-badge" id="cat-modifier-display">Loading…</span>
+  </div>
+
+  <!-- SERVICE SELECTOR BUTTONS -->
+  <div class="service-selector-section">
+    <div class="service-selector-title">Select the services you require:</div>
+    <div class="service-btns-row">
+      <button class="svc-select-btn" id="btn-borehole" onclick="toggleService('borehole')">
+        <span class="svc-icon">⛏️</span> Borehole Drilling Services
+        <div class="svc-tooltip">Deep drilling for water extraction — Symmetric, Core & Geo-Technical methods.</div>
+      </button>
+      <button class="svc-select-btn" id="btn-pipe" onclick="toggleService('pipe')">
+        <span class="svc-icon">🔧</span> Pipe Installation Services
+        <div class="svc-tooltip">Supply and installation of water pipes — PVC, PEX, Copper & Cast Iron.</div>
+      </button>
+      <button class="svc-select-btn" id="btn-tank" onclick="toggleService('tank')">
+        <span class="svc-icon">🗄️</span> Tank Installation Services
+        <div class="svc-tooltip">Water storage tank supply and installation — up to 10,000 litres capacity.</div>
+      </button>
+      <button class="svc-select-btn" id="btn-pump" onclick="toggleService('pump')">
+        <span class="svc-icon">⚙️</span> Pump Installation Services
+        <div class="svc-tooltip">Water pump installation — Submersible Electric, Solar & Hand pumps.</div>
+      </button>
+    </div>
+  </div>
+
+  <!-- SERVICE FORMS CONTAINER -->
+  <div id="services-container"></div>
+
+  <!-- PROJECT SUMMARY -->
+  <div class="summary-section">
+    <div class="summary-title-row">
+      <h3>Project Summary</h3>
+      <div class="tooltip-wrap" style="position:relative">
+        <div class="tip-icon" style="width:18px;height:18px;font-size:0.7rem;">?</div>
+        <div class="tip-box" style="left:0;transform:none;">Auto-calculated totals based on your service selections and client category.</div>
+      </div>
+    </div>
+    <div class="summary-card" id="project-summary">
+      <div style="text-align:center;padding:20px;color:rgba(255,255,255,0.35);font-size:0.85rem;font-style:italic;">
+        Select services above to see your project summary here.
+      </div>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <div class="nav-row">
+    <button class="btn-secondary" onclick="window.location.href='page1-client-registration.html'">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to Registration
+    </button>
+    <div style="display:flex;gap:12px;">
+      <button class="btn-secondary" onclick="saveAll()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/></svg>
+        Save Page
+      </button>
+      <button class="btn-primary" id="next-btn" onclick="goToPage3()">
+        Review & Confirm
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+  </div>
+</main>
+
+<!-- TOAST -->
+<div class="toast" id="toast"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span id="toast-msg">Saved</span></div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <h3 id="modal-title">Unselect Service?</h3>
+    <p id="modal-body">Are you sure you want to unselect this service? All entries in this service's forms will be lost.</p>
+    <div class="modal-btns">
+      <button class="btn-secondary" style="padding:9px 18px;font-size:0.85rem;" onclick="closeModal()">No, keep it</button>
+      <button class="btn-primary" style="padding:9px 18px;font-size:0.85rem;background:var(--error);" id="modal-confirm-btn">Yes, remove</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── PRICING DATA ──
+const CATEGORY_MODIFIERS = { Domestic: -1, Commercial: 0, Industrial: 1 };
+
+const BOREHOLE_DATA = {
+  types: ['Symmetric','Core','Geo-Technical'],
+  baseCharges: [130000, 225000, 335000], // Commercial
+  adjustment: 20000,
+  durations: { Domestic: 1, Commercial: 2, Industrial: 3 }, // hrs per type
+  tooltips: {
+    'Symmetric': 'Drilling with uniform circular cross-section. Ideal for standard residential and commercial water boreholes.',
+    'Core': 'Extracts a cylindrical rock sample during drilling. Used for geological assessment and deeper water sources.',
+    'Geo-Technical': 'Advanced geological drilling for soil & rock analysis. Required for industrial and complex site investigations.'
+  }
+};
+const PIPE_DATA = {
+  types: ['PVC','PEX','Copper','Cast Iron'],
+  baseCharges: [25000, 50000, 75000, 100000], // Commercial
+  pipeAdj: 20000,
+  lengths: ['1m – 5m','6m – 10m','11m – 15m','16m – 20m'],
+  lengthCharges: [5000, 10000, 15000, 20000], // Commercial
+  lengthAdj: 2500,
+  baseDurations: { Domestic: 1, Commercial: 2, Industrial: 3 }, // for 1m-5m, +1hr per length tier
+  exactLengths: {
+    '1m – 5m': ['1m','2m','3m','4m','5m'],
+    '6m – 10m': ['6m','7m','8m','9m','10m'],
+    '11m – 15m': ['11m','12m','13m','14m','15m'],
+    '16m – 20m': ['16m','17m','18m','19m','20m']
+  }
+};
+const TANK_DATA = {
+  volumes: ['1L – 2,500L','2,501L – 5,000L','5,001L – 7,500L','7,501L – 10,000L'],
+  baseCharges: [20000, 40000, 60000, 80000],
+  adjustment: 40000,
+  durations: { Domestic: 1, Commercial: 2, Industrial: 3 }
+};
+const PUMP_DATA = {
+  types: ['Submersible Electric','Solar','Hand'],
+  baseCharges: [90000, 65000, 30000],
+  adjustment: 10000,
+  durations: { Domestic: 1, Commercial: 2, Industrial: 3 },
+  tooltips: {
+    'Submersible Electric': 'Electric-powered pump placed deep inside the borehole. Best for high yield, reliable electricity supply.',
+    'Solar': 'Solar-powered pump system. Ideal for off-grid locations with good sunlight. Environmentally friendly.',
+    'Hand': 'Manual hand pump. Low cost, no electricity required. Suitable for low-yield boreholes or backup systems.'
+  }
+};
+
+// ── STATE ──
+let clientCategory = 'Commercial';
+let activeServices = { borehole: false, pipe: false, tank: false, pump: false };
+let serviceEntries = { borehole: [], pipe: [], tank: [], pump: [] };
+let pendingRemoveService = null;
+
+// ── INIT ──
+function init() {
+  // Load page1 data
+  try {
+    const p1 = JSON.parse(localStorage.getItem('rwsc_page1_data') || '{}');
+    if (p1.category) clientCategory = p1.category;
+  } catch(e) {}
+  updateCatBanner();
+
+  // Restore page2
+  try {
+    const p2 = JSON.parse(localStorage.getItem('rwsc_page2_data') || '{}');
+    if (p2.activeServices) {
+      Object.keys(p2.activeServices).forEach(s => {
+        if (p2.activeServices[s]) {
+          activeServices[s] = true;
+          document.getElementById('btn-' + s).classList.add('selected');
+          renderServiceCard(s);
+        }
+      });
+    }
+    if (p2.serviceEntries) {
+      // Restore entries after render
+      serviceEntries = p2.serviceEntries;
+      Object.keys(serviceEntries).forEach(s => {
+        if (activeServices[s]) restoreServiceEntries(s);
+      });
+    }
+  } catch(e) {}
+  renderSummary();
+}
+
+function updateCatBanner() {
+  document.getElementById('cat-display').textContent = clientCategory;
+  const modText = clientCategory === 'Commercial' ? 'Standard Rates' : clientCategory === 'Domestic' ? 'Reduced Rates (−)' : 'Premium Rates (+)';
+  document.getElementById('cat-modifier-display').textContent = modText;
+}
+
+// ── CHARGE CALCULATION ──
+function getBoreholeCharge(typeIdx) {
+  const base = BOREHOLE_DATA.baseCharges[typeIdx];
+  const mod = CATEGORY_MODIFIERS[clientCategory];
+  return base + (mod * BOREHOLE_DATA.adjustment);
+}
+function getBoreholeDuration(typeIdx) {
+  return BOREHOLE_DATA.durations[clientCategory];
+}
+function getPipeTypeCharge(typeIdx) {
+  const base = PIPE_DATA.baseCharges[typeIdx];
+  const mod = CATEGORY_MODIFIERS[clientCategory];
+  return base + (mod * PIPE_DATA.pipeAdj);
+}
+function getPipeLengthCharge(lenIdx) {
+  const base = PIPE_DATA.lengthCharges[lenIdx];
+  const mod = CATEGORY_MODIFIERS[clientCategory];
+  return base + (mod * PIPE_DATA.lengthAdj);
+}
+function getPipeDuration(lenIdx) {
+  const base = PIPE_DATA.baseDurations[clientCategory];
+  return base + lenIdx;
+}
+function getTankCharge(volIdx) {
+  const base = TANK_DATA.baseCharges[volIdx];
+  const mod = CATEGORY_MODIFIERS[clientCategory];
+  return base + (mod * TANK_DATA.adjustment);
+}
+function getTankDuration() { return TANK_DATA.durations[clientCategory]; }
+function getPumpCharge(typeIdx) {
+  const base = PUMP_DATA.baseCharges[typeIdx];
+  const mod = CATEGORY_MODIFIERS[clientCategory];
+  return base + (mod * PUMP_DATA.adjustment);
+}
+function getPumpDuration() { return PUMP_DATA.durations[clientCategory]; }
+
+function fmt(n) { return 'Ksh. ' + n.toLocaleString(); }
+
+// ── TOGGLE SERVICE ──
+function toggleService(svc) {
+  if (activeServices[svc]) {
+    // Check if has filled entries
+    const hasFilled = serviceEntries[svc].some(e => Object.values(e).some(v => v !== null && v !== '' && v !== undefined));
+    if (hasFilled) {
+      pendingRemoveService = svc;
+      document.getElementById('modal-title').textContent = 'Unselect ' + svc.charAt(0).toUpperCase() + svc.slice(1) + ' Service?';
+      document.getElementById('modal-body').textContent = 'Are you sure you want to unselect this service? All entries you have made in this service\'s forms will be removed.';
+      document.getElementById('modal-confirm-btn').onclick = () => { confirmRemoveService(pendingRemoveService); closeModal(); };
+      document.getElementById('modal').classList.add('open');
+    } else {
+      removeService(svc);
+    }
+  } else {
+    activeServices[svc] = true;
+    serviceEntries[svc] = [{}];
+    document.getElementById('btn-' + svc).classList.add('selected');
+    renderServiceCard(svc);
+    renderSummary();
+  }
+}
+
+function confirmRemoveService(svc) {
+  removeService(svc);
+}
+
+function removeService(svc) {
+  activeServices[svc] = false;
+  serviceEntries[svc] = [];
+  document.getElementById('btn-' + svc).classList.remove('selected');
+  const card = document.getElementById('svc-card-' + svc);
+  if (card) card.remove();
+  renderSummary();
+  autoSave();
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+}
+
+// ── RENDER SERVICE CARDS ──
+function renderServiceCard(svc) {
+  const container = document.getElementById('services-container');
+  const existing = document.getElementById('svc-card-' + svc);
+  if (existing) return;
+
+  const card = document.createElement('div');
+  card.className = 'service-card';
+  card.id = 'svc-card-' + svc;
+
+  const titles = {
+    borehole: 'Borehole Drilling Services',
+    pipe: 'Pipe Installation Services',
+    tank: 'Tank Installation Services',
+    pump: 'Pump Installation Services'
+  };
+  const tips = {
+    borehole: 'Professional borehole drilling using Symmetric, Core or Geo-Technical methods. Charges and duration vary by client category.',
+    pipe: 'Installation of water supply piping using PVC, PEX, Copper or Cast Iron pipes. Charges depend on pipe type, length and category.',
+    tank: 'Supply and installation of water storage tanks from 1 to 10,000 litres. Charges by volume and client category.',
+    pump: 'Installation of water pumps — submersible electric, solar-powered or hand pumps. Charges by pump type and category.'
+  };
+
+  card.innerHTML = `
+    <div class="svc-card-header">
+      <div class="svc-header-left">
+        <button class="unselect-btn" onclick="toggleService('${svc}')">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          Unselect Service
+        </button>
+        <span class="svc-card-title">${titles[svc]}</span>
+        <span class="svc-tooltip-inline" data-tip="${tips[svc]}">?</span>
+      </div>
+      <div class="svc-header-actions">
+        <button class="icon-btn" onclick="saveServiceForm('${svc}')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/><polyline points="7,3 7,8 15,8"/></svg>
+          Save
+        </button>
+        <button class="icon-btn" onclick="clearServiceForm('${svc}')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+          Clear
+        </button>
+      </div>
+    </div>
+    <div class="svc-card-body" id="body-${svc}"></div>
+  `;
+  container.appendChild(card);
+  if (!serviceEntries[svc] || serviceEntries[svc].length === 0) serviceEntries[svc] = [{}];
+  renderServiceEntries(svc);
+}
+
+// ── RENDER ENTRIES ──
+function renderServiceEntries(svc) {
+  const body = document.getElementById('body-' + svc);
+  if (!body) return;
+  body.innerHTML = '';
+  serviceEntries[svc].forEach((entry, idx) => {
+    body.appendChild(createEntryEl(svc, idx, entry));
+  });
+  // Add service bar
+  const addBar = document.createElement('div');
+  addBar.className = 'add-svc-bar';
+  addBar.innerHTML = `
+    <div class="add-icon">+</div>
+    <span>Add another ${svc} service</span>
+    <div class="add-tooltip tooltip-wrap" style="position:relative;">
+      <div class="tip-icon">?</div>
+      <div class="tip-box" style="right:0;left:auto;transform:none;">Click to add another service entry of this type. Useful if you need multiple variations.</div>
+    </div>
+  `;
+  addBar.onclick = () => { serviceEntries[svc].push({}); renderServiceEntries(svc); renderSummary(); };
+  body.appendChild(addBar);
+}
+
+function createEntryEl(svc, idx, entry) {
+  const el = document.createElement('div');
+  el.className = 'svc-entry';
+  el.id = `entry-${svc}-${idx}`;
+  if (svc === 'borehole') el.innerHTML = buildBoreholeEntry(svc, idx, entry);
+  else if (svc === 'pipe') el.innerHTML = buildPipeEntry(svc, idx, entry);
+  else if (svc === 'tank') el.innerHTML = buildTankEntry(svc, idx, entry);
+  else if (svc === 'pump') el.innerHTML = buildPumpEntry(svc, idx, entry);
+  if (idx > 0) {
+    const delBtn = document.createElement('button');
+    delBtn.className = 'delete-entry-btn';
+    delBtn.title = 'Remove this entry';
+    delBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>`;
+    delBtn.onclick = () => { serviceEntries[svc].splice(idx,1); renderServiceEntries(svc); renderSummary(); autoSave(); };
+    el.appendChild(delBtn);
+  }
+  return el;
+}
+
+// BOREHOLE ENTRY
+function buildBoreholeEntry(svc, idx, entry) {
+  const typeIdx = entry.typeIdx !== undefined ? entry.typeIdx : -1;
+  const charge = typeIdx >= 0 ? getBoreholeCharge(typeIdx) : '';
+  const duration = typeIdx >= 0 ? getBoreholeDuration(typeIdx) : '';
+  let typeOptions = `<option value="">— Select type —</option>`;
+  BOREHOLE_DATA.types.forEach((t, i) => { typeOptions += `<option value="${i}" ${typeIdx===i?'selected':''}>${t}</option>`; });
+  return `
+    <div class="svc-entry-row svc-entry-row-3">
+      <div class="field-group">
+        <div class="field-label-row">
+          <span class="field-label">Drilling Service</span>
+          <div class="tooltip-wrap" style="position:relative"><div class="tip-icon">?</div><div class="tip-box">Select the drilling method required for your project.</div></div>
+        </div>
+        <select class="field-select" onchange="onBoreholeTypeChange('${svc}',${idx},this.value)">
+          ${typeOptions}
+        </select>
+        ${typeIdx>=0 ? `<div style="font-size:0.72rem;color:var(--teal);margin-top:3px;font-style:italic;">${BOREHOLE_DATA.tooltips[BOREHOLE_DATA.types[typeIdx]]}</div>` : ''}
+      </div>
+      <div class="field-group">
+        <div class="field-label-row">
+          <span class="field-label">Charge</span>
+          <div class="tooltip-wrap" style="position:relative"><div class="tip-icon">?</div><div class="tip-box">Auto-calculated based on drilling type and your client category (${clientCategory}).</div></div>
+        </div>
+        <div class="ksh-prefix"><span class="ksh-label">Ksh.</span><input type="text" id="bh-charge-${idx}" readonly value="${charge ? charge.toLocaleString() : ''}"/></div>
+      </div>
+      <div class="field-group">
+        <div class="field-label-row">
+          <span class="field-label">Duration</span>
+          <div class="tooltip-wrap" style="position:relative"><div class="tip-icon">?</div><div class="tip-box">Estimated hours for this drilling service based on your category.</div></div>
+        </div>
+        <input class="field-input" id="bh-duration-${idx}" type="text" readonly value="${duration ? duration + ' hour' + (duration>1?'s':'') : ''}"/>
+      </div>
+    </div>`;
+}
+
+function onBoreholeTypeChange(svc, idx, val) {
+  if (val === '') { serviceEntries[svc][idx] = {}; }
+  else {
+    const typeIdx = parseInt(val);
+    serviceEntries[svc][idx] = { typeIdx };
+    const chargeEl = document.getElementById('bh-charge-' + idx);
+    const durEl = document.getElementById('bh-duration-' + idx);
+    if (chargeEl) chargeEl.value = getBoreholeCharge(typeIdx).toLocaleString();
+    if (durEl) { const d = getBoreholeDuration(typeIdx); durEl.value = d + ' hour' + (d>1?'s':''); }
+  }
+  renderServiceEntries(svc);
+  renderSummary(); autoSave();
+}
+
+// PIPE ENTRY
+function buildPipeEntry(svc, idx, entry) {
+  const pTypeIdx = entry.pTypeIdx !== undefined ? entry.pTypeIdx : -1;
+  const lenIdx = entry.lenIdx !== undefined ? entry.lenIdx : -1;
+  const exactLen = entry.exactLen || '';
+  const pCharge = pTypeIdx >= 0 ? getPipeTypeCharge(pTypeIdx) : '';
+  const lCharge = lenIdx >= 0 ? getPipeLengthCharge(lenIdx) : '';
+  const duration = lenIdx >= 0 ? getPipeDuration(lenIdx) : '';
+
+  let pTypeOpts = `<option value="">— Select type —</option>`;
+  PIPE_DATA.types.forEach((t,i) => { pTypeOpts += `<option value="${i}" ${pTypeIdx===i?'selected':''}>${t}</option>`; });
+  let lenOpts = `<option value="">— Select length —</option>`;
+  PIPE_DATA.lengths.forEach((l,i) => { lenOpts += `<option value="${i}" ${lenIdx===i?'selected':''}>${l}</option>`; });
+  let exactOpts = `<option value="">— Select —</option>`;
+  if (lenIdx >= 0) {
+    PIPE_DATA.exactLengths[PIPE_DATA.lengths[lenIdx]].forEach(l => { exactOpts += `<option value="${l}" ${exactLen===l?'selected':''}>${l}</option>`; });
+  }
+  return `
+    <div class="svc-entry-row svc-entry-row-6">
+      <div class="field-group">
+        <div class="field-label-row"><span class="field-label">Pipe Type</span><div class="tooltip-wrap" style="position:relative"><div class="tip-icon">?</div><div class="tip-box">Select the pipe material. PVC is most affordable; Copper is premium and long-lasting.</div></div></div>
+        <select class="field-select" onchange="onPipeTypeChange('${svc}',${idx},this.value)">${pTypeOpts}</select>
+      </div>
+      <div class="field-group">
+        <div class="field-label-row"><span class="field-label">Pipe Length</span><div class="tooltip-wrap" style="position:relative"><div class="tip-icon">?</div><div class="tip-box">Select the total pipe length range needed for your installation.</div></div></div>
+        <select class="field-select" onchange="onPipeLengthChange('${svc}',${idx},this.value)">${lenOpts}</select>
+      </div>
+      <div class="field-group">
+        <div class="field-label-row"><span class="field-label">Exact Length</span><div class="tooltip-wrap" style="position:relative"><div class="tip-icon">?</div><div class="tip-box">Select your exact pipe length within the chosen range.</div></div></div>
+        <select class="field-select" onchange="onExactLenChange('${svc}',${idx},this.value)" ${lenIdx<0?'disabled':''}>${exactOpts}</select>
+      </div>
+      <div class="field-group">
+        <div class="field-label-row"><span class="field-label">Type Charge</span></div>
+        <div class="ksh-prefix"><span class="ksh-label">Ksh.</span><input type="text" readonly value="${pCharge ? pCharge.toLocaleString() : ''}"/></div>
+      </div>
+      <div class="field-group">
+        <div class="field-label-row"><span class="field-label">Length Charge</span></div>
+        <div class="ksh-prefix"><span class="ksh-label">Ksh.</span><input type="text" readonly value="${lCharge ? lCharge.toLocaleString() : ''}"/></div>
+      </div>
+      <div class="field-group">
+        <div class="field-label-row"><span class="field-label">Duration</span></div>
+        <input class="field-input" type="text" readonly value="${duration ? duration + ' hour' + (duration>1?'s':'') : ''}"/>
+      </div>
+    </div>`;
+}
+
+function onPipeTypeChange(svc, idx, val) {
+  if (val==='') { serviceEntries[svc][idx].pTypeIdx = undefined; }
+  else { serviceEntries[svc][idx].pTypeIdx = parseInt(val); }
+  renderServiceEntries(svc); renderSummary(); autoSave();
+}
+function onPipeLengthChange(svc, idx, val) {
+  if (val==='') { serviceEntries[svc][idx].lenIdx = undefined; serviceEntries[svc][idx].exactLen = ''; }
+  else { serviceEntries[svc][idx].lenIdx = parseInt(val); serviceEntries[svc][idx].exactLen = ''; }
+  renderServiceEntries(svc); renderSummary(); autoSave();
+}
+function onExactLenChange(svc, idx, val) {
+  serviceEntries[svc][idx].exactLen = val;
+  autoSave();
+}
+
+// TANK ENTRY
+function buildTankEntry(svc, idx, entry) {
+  const volIdx = entry.volIdx !== undefined ? entry.volIdx : -1;
+  const charge = volIdx >= 0 ? getTankCharge(volIdx) : '';
+  const duration = getTankDuration();
+  let volOpts = `<option value="">— Select volume —</option>`;
+  TANK_DATA.volumes.forEach((v,i) => { volOpts += `<option value="${i}" ${volIdx===i?'selected':''}>${v}</option>`; });
+  return `
+    <div class="svc-entry-row svc-entry-row-3">
+      <div class="field-group">
+        <div class="field-label-row"><span class="field-label">Tank Volume</span><div class="tooltip-wrap" style="position:relative"><div class="tip-icon">?</div><div class="tip-box">Choose the storage capacity of the water tank to be installed.</div></div></div>
+        <select class="field-select" onchange="onTankVolChange('${svc}',${idx},this.value)">${volOpts}</select>
+      </div>
+      <div class="field-group">
+        <div class="field-label-row"><span class="field-label">Charge</span></div>
+        <div class="ksh-prefix"><span class="ksh-label">Ksh.</span><input type="text" readonly value="${charge ? charge.toLocaleString() : ''}"/></div>
+      </div>
+      <div class="field-group">
+        <div class="field-label-row"><span class="field-label">Duration</span></div>
+        <input class="field-input" type="text" readonly value="${duration + ' hour' + (duration>1?'s':'')}"/>
+      </div>
+    </div>`;
+}
+
+function onTankVolChange(svc, idx, val) {
+  if (val==='') { serviceEntries[svc][idx] = {}; }
+  else { serviceEntries[svc][idx].volIdx = parseInt(val); }
+  renderServiceEntries(svc); renderSummary(); autoSave();
+}
+
+// PUMP ENTRY
+function buildPumpEntry(svc, idx, entry) {
+  const typeIdx = entry.typeIdx !== undefined ? entry.typeIdx : -1;
+  const charge = typeIdx >= 0 ? getPumpCharge(typeIdx) : '';
+  const duration = getPumpDuration();
+  let typeOpts = `<option value="">— Select pump type —</option>`;
+  PUMP_DATA.types.forEach((t,i) => { typeOpts += `<option value="${i}" ${typeIdx===i?'selected':''}>${t}</option>`; });
+  return `
+    <div class="svc-entry-row svc-entry-row-3">
+      <div class="field-group">
+        <div class="field-label-row"><span class="field-label">Pump Type</span><div class="tooltip-wrap" style="position:relative"><div class="tip-icon">?</div><div class="tip-box">Select the type of pump to be installed at your site.</div></div></div>
+        <select class="field-select" onchange="onPumpTypeChange('${svc}',${idx},this.value)">${typeOpts}</select>
+        ${typeIdx>=0 ? `<div style="font-size:0.72rem;color:var(--teal);margin-top:3px;font-style:italic;">${PUMP_DATA.tooltips[PUMP_DATA.types[typeIdx]]}</div>` : ''}
+      </div>
+      <div class="field-group">
+        <div class="field-label-row"><span class="field-label">Charge</span></div>
+        <div class="ksh-prefix"><span class="ksh-label">Ksh.</span><input type="text" readonly value="${charge ? charge.toLocaleString() : ''}"/></div>
+      </div>
+      <div class="field-group">
+        <div class="field-label-row"><span class="field-label">Duration</span></div>
+        <input class="field-input" type="text" readonly value="${duration + ' hour' + (duration>1?'s':'')}"/>
+      </div>
+    </div>`;
+}
+
+function onPumpTypeChange(svc, idx, val) {
+  if (val==='') { serviceEntries[svc][idx] = {}; }
+  else { serviceEntries[svc][idx].typeIdx = parseInt(val); }
+  renderServiceEntries(svc); renderSummary(); autoSave();
+}
+
+// ── RESTORE ENTRIES ──
+function restoreServiceEntries(svc) {
+  renderServiceEntries(svc);
+}
+
+// ── RENDER SUMMARY ──
+function renderSummary() {
+  const el = document.getElementById('project-summary');
+  let html = '';
+  let grandTotal = 0, grandHours = 0;
+  let hasAny = false;
+
+  // Borehole
+  if (activeServices.borehole) {
+    const entries = serviceEntries.borehole.filter(e => e.typeIdx !== undefined);
+    if (entries.length > 0) {
+      hasAny = true;
+      let rows = '', svcTotal = 0, svcHrs = 0;
+      entries.forEach(e => {
+        const c = getBoreholeCharge(e.typeIdx);
+        const d = getBoreholeDuration(e.typeIdx);
+        svcTotal += c; svcHrs += d;
+        rows += `<tr><td>${BOREHOLE_DATA.types[e.typeIdx]}</td><td>Ksh. ${c.toLocaleString()}</td><td>${d} hr${d>1?'s':''}</td></tr>`;
+      });
+      grandTotal += svcTotal; grandHours += svcHrs;
+      html += `<div class="summary-svc-group"><div class="summary-svc-title">⛏️ Borehole Drilling Services</div>
+        <table class="summary-table"><thead><tr><th>Drilling Service</th><th>Charge</th><th>Duration</th></tr></thead>
+        <tbody>${rows}<tr class="subtotal-row"><td>Subtotal</td><td>Ksh. ${svcTotal.toLocaleString()}</td><td>${svcHrs} hrs</td></tr></tbody></table></div>`;
+    }
+  }
+
+  // Pipe
+  if (activeServices.pipe) {
+    const entries = serviceEntries.pipe.filter(e => e.pTypeIdx !== undefined || e.lenIdx !== undefined);
+    if (entries.length > 0) {
+      hasAny = true;
+      let rows = '', svcTotalType = 0, svcTotalLen = 0, svcHrs = 0;
+      entries.forEach(e => {
+        const pC = e.pTypeIdx !== undefined ? getPipeTypeCharge(e.pTypeIdx) : 0;
+        const lC = e.lenIdx !== undefined ? getPipeLengthCharge(e.lenIdx) : 0;
+        const d = e.lenIdx !== undefined ? getPipeDuration(e.lenIdx) : (PIPE_DATA.baseDurations[clientCategory]);
+        svcTotalType += pC; svcTotalLen += lC; svcHrs += d;
+        const pName = e.pTypeIdx !== undefined ? PIPE_DATA.types[e.pTypeIdx] : '—';
+        const lName = e.lenIdx !== undefined ? PIPE_DATA.lengths[e.lenIdx] : '—';
+        const exact = e.exactLen || '—';
+        rows += `<tr><td>${pName}</td><td>${lName}</td><td>${exact}</td><td>Ksh. ${pC.toLocaleString()}</td><td>Ksh. ${lC.toLocaleString()}</td><td>${d} hr${d>1?'s':''}</td></tr>`;
+      });
+      grandTotal += svcTotalType + svcTotalLen; grandHours += svcHrs;
+      html += `<div class="summary-svc-group"><div class="summary-svc-title">🔧 Pipe Installation Services</div>
+        <table class="summary-table"><thead><tr><th>Pipe Type</th><th>Pipe Length</th><th>Exact Length</th><th>Type Charge</th><th>Length Charge</th><th>Duration</th></tr></thead>
+        <tbody>${rows}<tr class="subtotal-row"><td colspan="3">Subtotal</td><td>Ksh. ${svcTotalType.toLocaleString()}</td><td>Ksh. ${svcTotalLen.toLocaleString()}</td><td>${svcHrs} hrs</td></tr></tbody></table></div>`;
+    }
+  }
+
+  // Tank
+  if (activeServices.tank) {
+    const entries = serviceEntries.tank.filter(e => e.volIdx !== undefined);
+    if (entries.length > 0) {
+      hasAny = true;
+      let rows = '', svcTotal = 0, svcHrs = 0;
+      entries.forEach(e => {
+        const c = getTankCharge(e.volIdx);
+        const d = getTankDuration();
+        svcTotal += c; svcHrs += d;
+        rows += `<tr><td>${TANK_DATA.volumes[e.volIdx]}</td><td>Ksh. ${c.toLocaleString()}</td><td>${d} hr${d>1?'s':''}</td></tr>`;
+      });
+      grandTotal += svcTotal; grandHours += svcHrs;
+      html += `<div class="summary-svc-group"><div class="summary-svc-title">🗄️ Tank Installation Services</div>
+        <table class="summary-table"><thead><tr><th>Tank Volume</th><th>Charge</th><th>Duration</th></tr></thead>
+        <tbody>${rows}<tr class="subtotal-row"><td>Subtotal</td><td>Ksh. ${svcTotal.toLocaleString()}</td><td>${svcHrs} hrs</td></tr></tbody></table></div>`;
+    }
+  }
+
+  // Pump
+  if (activeServices.pump) {
+    const entries = serviceEntries.pump.filter(e => e.typeIdx !== undefined);
+    if (entries.length > 0) {
+      hasAny = true;
+      let rows = '', svcTotal = 0, svcHrs = 0;
+      entries.forEach(e => {
+        const c = getPumpCharge(e.typeIdx);
+        const d = getPumpDuration();
+        svcTotal += c; svcHrs += d;
+        rows += `<tr><td>${PUMP_DATA.types[e.typeIdx]}</td><td>Ksh. ${c.toLocaleString()}</td><td>${d} hr${d>1?'s':''}</td></tr>`;
+      });
+      grandTotal += svcTotal; grandHours += svcHrs;
+      html += `<div class="summary-svc-group"><div class="summary-svc-title">⚙️ Pump Installation Services</div>
+        <table class="summary-table"><thead><tr><th>Pump Type</th><th>Charge</th><th>Duration</th></tr></thead>
+        <tbody>${rows}<tr class="subtotal-row"><td>Subtotal</td><td>Ksh. ${svcTotal.toLocaleString()}</td><td>${svcHrs} hrs</td></tr></tbody></table></div>`;
+    }
+  }
+
+  if (!hasAny) {
+    el.innerHTML = '<div style="text-align:center;padding:20px;color:rgba(255,255,255,0.35);font-size:0.85rem;font-style:italic;">Select services and fill in details above to see your project summary here.</div>';
+    return;
+  }
+
+  // Category charge
+  const catCharges = { Domestic: 10000, Commercial: 30000, Industrial: 50000 };
+  const catCharge = catCharges[clientCategory] || 0;
+  grandTotal += catCharge;
+
+  // Grand total box
+  const workHrsPerDay = 8;
+  const fullDays = Math.floor(grandHours / workHrsPerDay);
+  const remainHrs = grandHours % workHrsPerDay;
+  let scheduleNote = '';
+  if (grandHours > workHrsPerDay) {
+    scheduleNote = `⚠️ This project requires ${grandHours} hours total. Working hours are 8am–12pm and 2pm–6pm (8 hrs/day). Estimated completion: ${fullDays} full day${fullDays!==1?'s':''}${remainHrs>0?' + '+remainHrs+' hour'+( remainHrs>1?'s':''):''}. The schedule will be automatically spread across available working days. Employee assignments will update as each phase is completed.`;
+  }
+
+  html += `
+    <div class="grand-total-box">
+      <div class="gt-label">Grand Total</div>
+      <div class="gt-values">
+        <div class="gt-val">
+          <div class="amount">Ksh. ${grandTotal.toLocaleString()}</div>
+          <div class="label">Total Charges</div>
+        </div>
+        <div class="gt-val">
+          <div class="amount">${grandHours} hrs</div>
+          <div class="label">Total Duration</div>
+        </div>
+      </div>
+    </div>
+    ${scheduleNote ? `<div class="schedule-note">${scheduleNote}</div>` : ''}
+  `;
+
+  el.innerHTML = html;
+}
+
+// ── SAVE / AUTOSAVE ──
+function saveServiceForm(svc) { autoSave(); showToast('Service form saved ✓'); }
+function clearServiceForm(svc) {
+  serviceEntries[svc] = [{}];
+  renderServiceEntries(svc);
+  renderSummary();
+  autoSave();
+  showToast('Service form cleared');
+}
+
+function autoSave() {
+  try {
+    localStorage.setItem('rwsc_page2_data', JSON.stringify({ activeServices, serviceEntries }));
+  } catch(e) {}
+}
+function saveAll() { autoSave(); showToast('All progress saved ✓'); }
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+function goToPage3() {
+  const hasService = Object.keys(activeServices).some(s => {
+    if (!activeServices[s]) return false;
+    return serviceEntries[s].some(e => Object.keys(e).length > 0 && Object.values(e).some(v => v !== undefined && v !== '' && v !== null));
+  });
+  if (!hasService) { showToast('⚠ Please select and fill in at least one service'); return; }
+  saveAll();
+  showToast('✓ Saved — proceeding to Confirm & Submit…');
+  setTimeout(() => { window.location.href = 'page3-confirm-submit.html'; }, 1200);
+}
+
+init();
+</script>
+</body>
+</html>

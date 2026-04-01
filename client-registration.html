@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Client Registration – Reliable Water Services Company</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --navy:#1B3A5C;--teal:#2E7EAA;--sky:#5BB8E8;--gray:#7A7A8C;
+    --light-bg:#F4F8FB;--white:#FFFFFF;--border:#D0E4F0;
+    --success:#2E9E6B;--error:#C0392B;
+    --shadow:0 2px 16px rgba(27,58,92,0.10);--radius:10px;
+    --font-display:'Playfair Display',serif;--font-body:'DM Sans',sans-serif;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:var(--font-body);background:var(--light-bg);color:var(--navy);min-height:100vh;}
+
+  /* HEADER */
+  .site-header{background:var(--white);border-bottom:2.5px solid var(--sky);padding:0 40px;display:flex;align-items:center;justify-content:space-between;min-height:80px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(27,58,92,0.08);}
+  .header-logo{display:flex;align-items:center;gap:10px;}
+  .header-logo img{height:54px;width:auto;object-fit:contain;}
+  .header-logo-fallback{width:48px;height:48px;background:linear-gradient(135deg,var(--navy),var(--teal));border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:1rem;}
+  .header-company{text-align:center;flex:1;padding:0 16px;}
+  .header-company h1{font-family:var(--font-display);font-size:1.3rem;color:var(--navy);letter-spacing:0.04em;text-transform:uppercase;line-height:1.2;}
+  .header-contact{display:flex;flex-direction:column;align-items:flex-end;gap:5px;}
+  .header-contact a{display:flex;align-items:center;gap:7px;color:var(--teal);font-size:0.82rem;font-weight:500;text-decoration:none;transition:color 0.2s;}
+  .header-contact a:hover{color:var(--navy);}
+  .whatsapp-badge{background:#25D366;color:white!important;padding:4px 11px 4px 8px;border-radius:20px;font-size:0.76rem!important;font-weight:600!important;}
+
+  /* PROGRESS */
+  .progress-bar-wrap{background:var(--white);border-bottom:1px solid var(--border);padding:10px 40px;}
+  .progress-track{max-width:860px;margin:0 auto;display:flex;align-items:center;}
+  .prog-step{display:flex;align-items:center;gap:8px;flex:1;}
+  .prog-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:700;border:2px solid var(--border);color:var(--gray);background:white;flex-shrink:0;transition:all 0.3s;}
+  .prog-dot.active{border-color:var(--teal);background:var(--teal);color:white;}
+  .prog-dot.done{border-color:var(--success);background:var(--success);color:white;}
+  .prog-label{font-size:0.75rem;font-weight:600;color:var(--gray);}
+  .prog-label.active{color:var(--teal);}
+  .prog-line{flex:1;height:2px;background:var(--border);margin:0 8px;}
+  .prog-line.done{background:var(--success);}
+
+  /* BREADCRUMB */
+  .breadcrumb-bar{background:var(--navy);padding:0 40px;display:flex;align-items:center;height:44px;overflow-x:auto;}
+  .bc-btn{display:flex;align-items:center;gap:8px;padding:0 18px;height:44px;font-family:var(--font-body);font-size:0.8rem;font-weight:500;color:rgba(255,255,255,0.55);background:none;border:none;cursor:default;white-space:nowrap;letter-spacing:0.04em;text-transform:uppercase;}
+  .bc-btn.active{color:var(--sky);font-weight:600;border-bottom:3px solid var(--sky);}
+  .bc-btn.done{color:rgba(255,255,255,0.75);cursor:pointer;}
+  .bc-btn.done:hover{color:white;}
+  .bc-sep{color:rgba(255,255,255,0.3);}
+  .bc-num{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;background:rgba(255,255,255,0.15);}
+  .bc-btn.active .bc-num{background:var(--sky);color:var(--navy);}
+  .bc-btn.done .bc-num{background:var(--success);color:white;}
+
+  /* MAIN */
+  .page-main{max-width:860px;margin:36px auto 60px;padding:0 20px;}
+  .page-title-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;}
+  .page-title{font-family:var(--font-display);font-size:1.6rem;color:var(--navy);}
+  .page-title span{color:var(--teal);}
+  .page-save-btn{display:flex;align-items:center;gap:7px;background:var(--navy);color:white;border:none;padding:9px 20px;border-radius:var(--radius);font-family:var(--font-body);font-size:0.85rem;font-weight:600;cursor:pointer;transition:background 0.2s,transform 0.15s;}
+  .page-save-btn:hover{background:var(--teal);transform:translateY(-1px);}
+
+  /* FORM CARD */
+  .form-card{background:var(--white);border-radius:14px;box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:24px;overflow:hidden;animation:fadeUp 0.4s ease both;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+  .card-header{background:linear-gradient(90deg,var(--navy) 0%,#234d76 100%);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;}
+  .card-header-left{display:flex;align-items:center;gap:12px;}
+  .card-icon{width:36px;height:36px;background:rgba(91,184,232,0.18);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+  .card-title{font-family:var(--font-display);font-size:1rem;color:white;font-weight:600;}
+  .card-subtitle{font-size:0.75rem;color:rgba(255,255,255,0.6);margin-top:1px;}
+  .card-actions{display:flex;align-items:center;gap:10px;}
+  .btn-icon{display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;color:rgba(255,255,255,0.7);font-size:0.65rem;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;transition:color 0.2s;padding:4px 6px;border-radius:6px;}
+  .btn-icon:hover{color:var(--sky);background:rgba(255,255,255,0.07);}
+  .btn-icon svg{width:18px;height:18px;}
+  .card-body{padding:28px 24px;}
+
+  /* FIELDS */
+  .fields-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;}
+  .field-group{display:flex;flex-direction:column;gap:6px;}
+  .field-label-row{display:flex;align-items:center;gap:6px;}
+  .field-label{font-size:0.78rem;font-weight:600;color:var(--navy);text-transform:uppercase;letter-spacing:0.05em;}
+  .field-required{color:var(--error);}
+  .tooltip-wrap{position:relative;display:inline-flex;align-items:center;}
+  .tooltip-icon{width:16px;height:16px;background:var(--border);color:var(--teal);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;cursor:default;flex-shrink:0;}
+  .tooltip-wrap:hover .tooltip-box{opacity:1;}
+  .tooltip-box{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--navy);color:white;font-size:0.72rem;padding:7px 12px;border-radius:7px;white-space:normal;max-width:240px;line-height:1.5;pointer-events:none;opacity:0;transition:opacity 0.2s;z-index:50;}
+  .tooltip-box::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--navy);}
+  .field-input,.field-select,.field-textarea{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:8px;font-family:var(--font-body);font-size:0.88rem;color:var(--navy);background:var(--white);transition:border-color 0.2s,box-shadow 0.2s;outline:none;}
+  .field-input:focus,.field-select:focus,.field-textarea:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(46,126,170,0.12);}
+  .field-input::placeholder{color:#B0BEC5;}
+  .field-select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%232E7EAA' stroke-width='1.8' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;}
+  .field-textarea{resize:vertical;min-height:80px;}
+  .input-with-prefix{display:flex;align-items:center;border:1.5px solid var(--border);border-radius:8px;overflow:hidden;transition:border-color 0.2s,box-shadow 0.2s;}
+  .input-with-prefix:focus-within{border-color:var(--teal);box-shadow:0 0 0 3px rgba(46,126,170,0.12);}
+  .input-prefix{background:var(--light-bg);padding:11px 12px;font-size:0.85rem;color:var(--gray);border-right:1px solid var(--border);white-space:nowrap;font-weight:600;}
+  .input-with-prefix input{border:none!important;outline:none!important;box-shadow:none!important;border-radius:0!important;flex:1;}
+  .section-divider{display:flex;align-items:center;gap:14px;margin:24px 0 20px;}
+  .section-divider span{font-size:0.72rem;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:0.08em;white-space:nowrap;}
+  .divider-line{flex:1;height:1px;background:var(--border);}
+  .preferred-contact-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+
+  /* URGENCY */
+  .urgency-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:4px;}
+  .urgency-btn{border:2px solid var(--border);border-radius:10px;padding:14px 10px;cursor:pointer;text-align:center;transition:all 0.2s;background:var(--white);}
+  .urgency-btn:hover{border-color:var(--sky);background:#F0F9FF;}
+  .urgency-btn.selected{border-color:var(--teal);background:#EAF4FB;}
+  .urgency-icon{font-size:1.4rem;margin-bottom:6px;}
+  .urgency-label{font-size:0.78rem;font-weight:600;color:var(--navy);text-transform:uppercase;letter-spacing:0.04em;}
+  .urgency-sub{font-size:0.68rem;color:var(--gray);margin-top:2px;}
+
+  /* CALENDAR */
+  .calendar-container{margin-top:14px;background:#F7FAFC;border:1.5px solid var(--border);border-radius:12px;padding:16px;animation:fadeUp 0.3s ease;}
+  .calendar-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+  .calendar-title{font-size:0.85rem;font-weight:700;color:var(--navy);}
+  .calendar-subtitle{font-size:0.72rem;color:var(--gray);margin-top:2px;}
+  .cal-days-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:14px;}
+  .cal-day{border:1.5px solid var(--border);border-radius:8px;padding:8px 4px;text-align:center;cursor:pointer;transition:all 0.2s;background:white;}
+  .cal-day:hover:not(.disabled):not(.past){border-color:var(--sky);background:#F0F9FF;}
+  .cal-day.selected{border-color:var(--teal);background:var(--teal);color:white;}
+  .cal-day.selected .day-name,.cal-day.selected .day-num,.cal-day.selected .day-month{color:white!important;}
+  .cal-day.today-marker{border-color:var(--sky);}
+  .cal-day.past{opacity:0.38;cursor:not-allowed;background:#F9F9F9;}
+  .cal-day.disabled{opacity:0.38;cursor:not-allowed;}
+  .day-name{font-size:0.62rem;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:0.04em;}
+  .day-num{font-size:1.1rem;font-weight:700;color:var(--navy);line-height:1.2;}
+  .day-month{font-size:0.62rem;color:var(--gray);}
+  .today-tag{font-size:0.55rem;background:var(--teal);color:white;padding:1px 5px;border-radius:10px;margin-top:3px;display:inline-block;}
+
+  /* TIME PICKER */
+  .time-picker-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:2px;}
+  .time-note{font-size:0.74rem;color:var(--teal);margin-top:8px;padding:8px 12px;background:#EAF4FB;border-radius:7px;border-left:3px solid var(--teal);line-height:1.5;}
+  .traffic-note{font-size:0.74rem;color:#8B6000;margin-top:8px;padding:8px 12px;background:#FFF8E1;border-radius:7px;border-left:3px solid #D4820A;line-height:1.5;}
+
+  /* CATEGORY CARDS */
+  .category-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:4px;}
+  .cat-card{border:2px solid var(--border);border-radius:12px;padding:20px 16px;cursor:pointer;transition:border-color 0.2s,box-shadow 0.2s,transform 0.15s;text-align:center;position:relative;background:var(--white);}
+  .cat-card:hover{border-color:var(--teal);transform:translateY(-2px);box-shadow:0 6px 20px rgba(46,126,170,0.12);}
+  .cat-card.selected{border-color:var(--teal);background:linear-gradient(135deg,#EAF4FB 0%,#F0F9FF 100%);box-shadow:0 4px 16px rgba(46,126,170,0.18);}
+  .cat-card.selected::after{content:'✓';position:absolute;top:10px;right:12px;width:22px;height:22px;background:var(--teal);color:white;border-radius:50%;font-size:0.7rem;display:flex;align-items:center;justify-content:center;font-weight:700;}
+  .cat-icon{font-size:2rem;margin-bottom:10px;}
+  .cat-name{font-family:var(--font-display);font-size:0.95rem;color:var(--navy);font-weight:600;margin-bottom:6px;}
+  .cat-desc{font-size:0.75rem;color:var(--gray);line-height:1.5;margin-bottom:10px;}
+  .cat-charge{font-size:0.82rem;font-weight:700;color:var(--teal);background:rgba(46,126,170,0.08);padding:4px 10px;border-radius:20px;display:inline-block;}
+
+  /* SUMMARY */
+  .summary-card{background:linear-gradient(135deg,var(--navy) 0%,#234d76 100%);border-radius:14px;padding:24px;color:white;margin-bottom:24px;box-shadow:0 4px 20px rgba(27,58,92,0.22);}
+  .summary-title{font-family:var(--font-display);font-size:1rem;color:var(--sky);margin-bottom:16px;letter-spacing:0.04em;text-transform:uppercase;}
+  .summary-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.08);font-size:0.82rem;}
+  .summary-row:last-child{border-bottom:none;}
+  .summary-key{color:rgba(255,255,255,0.65);}
+  .summary-val{color:white;font-weight:600;}
+  .summary-placeholder{text-align:center;padding:16px;color:rgba(255,255,255,0.35);font-size:0.82rem;font-style:italic;}
+
+  /* NAV */
+  .nav-row{display:flex;justify-content:flex-end;gap:14px;margin-top:32px;padding-top:24px;border-top:1px solid var(--border);}
+  .btn-primary{display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--teal) 0%,var(--navy) 100%);color:white;border:none;padding:13px 28px;border-radius:10px;font-family:var(--font-body);font-size:0.9rem;font-weight:600;cursor:pointer;transition:transform 0.15s,box-shadow 0.2s;letter-spacing:0.03em;box-shadow:0 4px 14px rgba(46,126,170,0.35);}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(46,126,170,0.45);}
+  .btn-secondary{display:flex;align-items:center;gap:8px;background:var(--white);color:var(--navy);border:2px solid var(--border);padding:11px 24px;border-radius:10px;font-family:var(--font-body);font-size:0.9rem;font-weight:600;cursor:pointer;transition:all 0.2s;}
+  .btn-secondary:hover{border-color:var(--teal);color:var(--teal);}
+
+  /* TOAST */
+  .toast{position:fixed;bottom:28px;right:28px;background:var(--success);color:white;padding:12px 22px;border-radius:10px;font-size:0.85rem;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,0.18);display:flex;align-items:center;gap:8px;transform:translateY(80px);opacity:0;transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);z-index:1000;}
+  .toast.show{transform:translateY(0);opacity:1;}
+
+  @media(max-width:640px){
+    .site-header{padding:0 16px;min-height:68px;}
+    .header-company h1{font-size:0.95rem;}
+    .page-main{padding:0 12px;margin-top:20px;}
+    .fields-row{grid-template-columns:1fr;}
+    .category-grid{grid-template-columns:1fr;}
+    .urgency-grid{grid-template-columns:1fr 1fr;}
+    .breadcrumb-bar{padding:0 16px;}
+    .cal-days-grid{grid-template-columns:repeat(7,1fr);gap:3px;}
+    .day-num{font-size:0.9rem;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-logo">
+    <img src="logo.png" alt="Reliable Water Services Logo"
+         onerror="this.style.display='none';document.getElementById('logo-fallback').style.display='flex'"/>
+    <div id="logo-fallback" class="header-logo-fallback" style="display:none;">RWS</div>
+  </div>
+  <div class="header-company">
+    <h1>Reliable Water Services Company</h1>
+  </div>
+  <div class="header-contact">
+    <a href="mailto:info@reliablewaterservices.co.ke">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+      info@reliablewaterservices.co.ke
+    </a>
+    <a href="https://wa.me/254700000000" target="_blank" class="whatsapp-badge">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+      +254 700 000 000 · WhatsApp
+    </a>
+  </div>
+</header>
+
+<div class="progress-bar-wrap">
+  <div class="progress-track">
+    <div class="prog-step"><div class="prog-dot active">1</div><span class="prog-label active">Client Registration</span></div>
+    <div class="prog-line"></div>
+    <div class="prog-step"><div class="prog-dot">2</div><span class="prog-label">Service Booking</span></div>
+    <div class="prog-line"></div>
+    <div class="prog-step"><div class="prog-dot">3</div><span class="prog-label">Confirm & Submit</span></div>
+  </div>
+</div>
+
+<nav class="breadcrumb-bar">
+  <button class="bc-btn active"><span class="bc-num">1</span> Client Registration</button>
+  <span class="bc-sep">›</span>
+  <button class="bc-btn"><span class="bc-num">2</span> Service Booking</button>
+  <span class="bc-sep">›</span>
+  <button class="bc-btn"><span class="bc-num">3</span> Confirm & Submit</button>
+</nav>
+
+<main class="page-main">
+  <div class="page-title-row">
+    <h2 class="page-title">CLIENT <span>REGISTRATION</span></h2>
+    <button class="page-save-btn" onclick="saveAll()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/><polyline points="7,3 7,8 15,8"/></svg>
+      Save Page
+    </button>
+  </div>
+
+  <!-- FORM 1 -->
+  <div class="form-card">
+    <div class="card-header">
+      <div class="card-header-left">
+        <div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5BB8E8" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <div><div class="card-title">Form 1 — Client Information</div><div class="card-subtitle">Your personal contact details</div></div>
+      </div>
+      <div class="card-actions">
+        <button class="btn-icon" onclick="saveAll()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/></svg>Save</button>
+        <button class="btn-icon" onclick="clearForm('form1')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>Clear</button>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="fields-row">
+        <div class="field-group">
+          <div class="field-label-row"><label class="field-label">First Name <span class="field-required">*</span></label><div class="tooltip-wrap"><div class="tooltip-icon">?</div><div class="tooltip-box">Your legal first name as on your ID.</div></div></div>
+          <input id="f1-firstname" class="field-input" type="text" placeholder="e.g. James" oninput="autoSave();updateSummary()"/>
+        </div>
+        <div class="field-group">
+          <div class="field-label-row"><label class="field-label">Last Name <span class="field-required">*</span></label><div class="tooltip-wrap"><div class="tooltip-icon">?</div><div class="tooltip-box">Your legal surname / last name.</div></div></div>
+          <input id="f1-lastname" class="field-input" type="text" placeholder="e.g. Justin" oninput="autoSave();updateSummary()"/>
+        </div>
+      </div>
+      <div class="fields-row">
+        <div class="field-group">
+          <div class="field-label-row"><label class="field-label">Phone Number <span class="field-required">*</span></label><div class="tooltip-wrap"><div class="tooltip-icon">?</div><div class="tooltip-box">Used for M-PESA confirmation and SMS follow-ups.</div></div></div>
+          <div class="input-with-prefix"><span class="input-prefix">+254</span><input id="f1-phone" class="field-input" type="tel" placeholder="712 345 678" oninput="autoSave();updateSummary()"/></div>
+        </div>
+        <div class="field-group">
+          <div class="field-label-row"><label class="field-label">Email Address <span class="field-required">*</span></label></div>
+          <input id="f1-email" class="field-input" type="email" placeholder="e.g. james@gmail.com" oninput="autoSave();updateSummary()"/>
+        </div>
+      </div>
+      <div class="section-divider"><div class="divider-line"></div><span>Preferred Contact Method</span><div class="divider-line"></div></div>
+      <div class="field-group">
+        <div class="field-label-row"><label class="field-label">How should we reach you? <span class="field-required">*</span></label><div class="tooltip-wrap"><div class="tooltip-icon">?</div><div class="tooltip-box">Choose how you prefer to receive service updates, documents and notifications.</div></div></div>
+        <div class="preferred-contact-row">
+          <select id="f1-contact-method" class="field-select" onchange="toggleContactHandle();autoSave();updateSummary()">
+            <option value="">— Select method —</option>
+            <option value="WhatsApp">WhatsApp</option><option value="Email">Email</option>
+            <option value="SMS">SMS</option><option value="Instagram">Instagram</option>
+            <option value="Facebook">Facebook</option><option value="Twitter/X">Twitter / X</option>
+            <option value="Phone Call">Phone Call</option>
+          </select>
+          <div id="contact-handle-wrap" style="display:none;">
+            <input id="f1-contact-handle" class="field-input" type="text" placeholder="Handle / username" oninput="autoSave();updateSummary()"/>
+          </div>
+        </div>
+        <div id="contact-method-note" style="font-size:0.75rem;color:var(--gray);margin-top:6px;display:none;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORM 2 -->
+  <div class="form-card" style="animation-delay:0.08s">
+    <div class="card-header">
+      <div class="card-header-left">
+        <div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5BB8E8" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <div><div class="card-title">Form 2 — Location & Urgency</div><div class="card-subtitle">Service delivery location and when you need it</div></div>
+      </div>
+      <div class="card-actions">
+        <button class="btn-icon" onclick="saveAll()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/></svg>Save</button>
+        <button class="btn-icon" onclick="clearForm('form2')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>Clear</button>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="fields-row">
+        <div class="field-group">
+          <div class="field-label-row"><label class="field-label">County <span class="field-required">*</span></label><div class="tooltip-wrap"><div class="tooltip-icon">?</div><div class="tooltip-box">Select the county where the service will be delivered.</div></div></div>
+          <select id="f2-county" class="field-select" onchange="onCountyChange();autoSave();updateSummary()">
+            <option value="">— Select county —</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <div class="field-label-row"><label class="field-label">Sub-Location <span class="field-required">*</span></label><div class="tooltip-wrap"><div class="tooltip-icon">?</div><div class="tooltip-box">Select your area within the county. Listed nearest to farthest from our company base. Travel time shown includes estimated traffic.</div></div></div>
+          <select id="f2-sublocation" class="field-select" onchange="onSubLocationChange();autoSave();updateSummary()" disabled>
+            <option value="">— Select county first —</option>
+          </select>
+        </div>
+      </div>
+      <div id="travel-time-note" style="display:none;" class="traffic-note">
+        🚗 <span id="travel-time-text"></span>
+      </div>
+      <div class="field-group" style="margin-top:16px;margin-bottom:20px;">
+        <div class="field-label-row"><label class="field-label">Specific / Exact Location <span class="field-required">*</span></label><div class="tooltip-wrap"><div class="tooltip-icon">?</div><div class="tooltip-box">Provide a full address, plot number, estate and nearest landmark.</div></div></div>
+        <textarea id="f2-specific" class="field-textarea" placeholder="e.g. Fedha Estate, Sydney Suite, Plot No. 45, near Fedha Primary School" oninput="autoSave();updateSummary()"></textarea>
+      </div>
+
+      <div class="section-divider"><div class="divider-line"></div><span>Service Urgency</span><div class="divider-line"></div></div>
+      <div class="field-label-row" style="margin-bottom:12px;">
+        <label class="field-label">When do you need this service? <span class="field-required">*</span></label>
+        <div class="tooltip-wrap"><div class="tooltip-icon">?</div><div class="tooltip-box">Select urgency. Multi-day jobs are spread across working slots: 8am–12pm and 2pm–6pm daily.</div></div>
+      </div>
+      <div class="urgency-grid">
+        <div class="urgency-btn" id="urg-today" onclick="selectUrgency('today')"><div class="urgency-icon">⚡</div><div class="urgency-label">Today</div><div class="urgency-sub">Starts today</div></div>
+        <div class="urgency-btn" id="urg-tomorrow" onclick="selectUrgency('tomorrow')"><div class="urgency-icon">📅</div><div class="urgency-label">Tomorrow</div><div class="urgency-sub">Next day</div></div>
+        <div class="urgency-btn" id="urg-thisweek" onclick="selectUrgency('thisweek')"><div class="urgency-icon">🗓️</div><div class="urgency-label">This Week</div><div class="urgency-sub">Within 7 days</div></div>
+        <div class="urgency-btn" id="urg-custom" onclick="selectUrgency('custom')"><div class="urgency-icon">✏️</div><div class="urgency-label">Choose Date</div><div class="urgency-sub">Pick a date</div></div>
+      </div>
+
+      <!-- CALENDAR PANEL -->
+      <div id="calendar-panel" style="display:none;"></div>
+    </div>
+  </div>
+
+  <!-- FORM 3 -->
+  <div class="form-card" style="animation-delay:0.16s">
+    <div class="card-header">
+      <div class="card-header-left">
+        <div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5BB8E8" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <div><div class="card-title">Form 3 — Client Category</div><div class="card-subtitle">Determines your service pricing</div></div>
+      </div>
+      <div class="card-actions">
+        <button class="btn-icon" onclick="saveAll()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/></svg>Save</button>
+        <button class="btn-icon" onclick="clearForm('form3')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>Clear</button>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="field-label-row" style="margin-bottom:16px;"><label class="field-label">Select your client category <span class="field-required">*</span></label></div>
+      <div class="category-grid">
+        <div class="cat-card" id="cat-domestic" onclick="selectCategory('Domestic')"><div class="cat-icon">🏠</div><div class="cat-name">Domestic</div><div class="cat-desc">Residential homes, personal plots and private households.</div><span class="cat-charge">Ksh. 10,000</span></div>
+        <div class="cat-card" id="cat-commercial" onclick="selectCategory('Commercial')"><div class="cat-icon">🏢</div><div class="cat-name">Commercial</div><div class="cat-desc">Businesses, offices, rental properties and commercial premises.</div><span class="cat-charge">Ksh. 30,000</span></div>
+        <div class="cat-card" id="cat-industrial" onclick="selectCategory('Industrial')"><div class="cat-icon">🏭</div><div class="cat-name">Industrial</div><div class="cat-desc">Factories, large estates, farms and industrial facilities.</div><span class="cat-charge">Ksh. 50,000</span></div>
+      </div>
+      <div id="category-info" style="margin-top:16px;display:none;">
+        <div style="padding:14px 18px;background:#EAF4FB;border-radius:10px;border-left:3px solid var(--teal);">
+          <div style="font-size:0.8rem;font-weight:700;color:var(--teal);margin-bottom:4px;">PRICING NOTE</div>
+          <div id="category-info-text" style="font-size:0.82rem;color:var(--navy);line-height:1.6;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary-card">
+    <div class="summary-title">📋 Page 1 Summary — Client Registration</div>
+    <div id="summary-content"><div class="summary-placeholder">Fill in the forms above to see your registration summary here.</div></div>
+  </div>
+
+  <div class="nav-row">
+    <button class="btn-secondary" onclick="saveAll()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/></svg>
+      Save & Continue Later
+    </button>
+    <button class="btn-primary" onclick="goToPage2()">
+      Proceed to Service Booking
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </div>
+</main>
+
+<div class="toast" id="toast"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span id="toast-msg">Saved</span></div>
+
+<script>
+// ── COUNTY SUB-LOCATION DATA ──
+// Each county has sub-locations ordered nearest→farthest from county geographic centre
+// travelMin = base minutes from company centre (without traffic)
+const COUNTY_DATA = {
+  "Nairobi": { centre: "Lang'ata / Nairobi West", subs: [
+    {name:"Lang'ata",travelMin:5},{name:"Nairobi West",travelMin:5},{name:"South B",travelMin:8},
+    {name:"South C",travelMin:8},{name:"Kibera",travelMin:10},{name:"Karen",travelMin:12},
+    {name:"Ngong Road",travelMin:12},{name:"Upperhill",travelMin:15},{name:"CBD (City Centre)",travelMin:15},
+    {name:"Kilimani",travelMin:15},{name:"Lavington",travelMin:18},{name:"Westlands",travelMin:20},
+    {name:"Parklands",travelMin:20},{name:"Kasarani",travelMin:25},{name:"Embakasi",travelMin:22},
+    {name:"Embakasi East",travelMin:24},{name:"Embakasi West",travelMin:22},{name:"Ruiru",travelMin:30},
+    {name:"Githurai",travelMin:28},{name:"Kahawa West",travelMin:30},{name:"Roysambu",travelMin:25},
+    {name:"Zimmerman",travelMin:27},{name:"Komarock",travelMin:28},{name:"Donholm",travelMin:25},
+    {name:"Buruburu",travelMin:22},{name:"Umoja",travelMin:24},{name:"Mathare",travelMin:20},
+    {name:"Eastleigh",travelMin:18},{name:"Industrial Area",travelMin:16},{name:"Pipeline",travelMin:20},
+  ]},
+  "Mombasa": { centre: "Mombasa Island", subs: [
+    {name:"Mombasa Island (Centre)",travelMin:5},{name:"Tudor",travelMin:8},{name:"Mvita",travelMin:5},
+    {name:"Kisauni",travelMin:12},{name:"Likoni",travelMin:10},{name:"Changamwe",travelMin:15},
+    {name:"Nyali",travelMin:18},{name:"Bamburi",travelMin:22},{name:"Mwakirunge",travelMin:25},
+    {name:"Mikindani",travelMin:20},{name:"Port Reitz",travelMin:18},
+  ]},
+  "Kisumu": { centre: "Kisumu Central", subs: [
+    {name:"Kisumu Central",travelMin:5},{name:"Market Milimani",travelMin:8},{name:"Kondele",travelMin:10},
+    {name:"Migosi",travelMin:12},{name:"Nyalenda",travelMin:10},{name:"Lolwe",travelMin:8},
+    {name:"Mamboleo",travelMin:15},{name:"Kajulu",travelMin:18},{name:"Muhoroni",travelMin:30},
+  ]},
+  "Nakuru": { centre: "Nakuru Town", subs: [
+    {name:"Nakuru Town Centre",travelMin:5},{name:"Milimani",travelMin:8},{name:"Kivumbini",travelMin:10},
+    {name:"Flamingo",travelMin:12},{name:"Section 58",travelMin:10},{name:"Pangani",travelMin:12},
+    {name:"Shabab",travelMin:14},{name:"Lanet",travelMin:18},{name:"Njoro",travelMin:25},
+    {name:"Naivasha",travelMin:40},{name:"Gilgil",travelMin:45},
+  ]},
+  "Kiambu": { centre: "Kiambu Town", subs: [
+    {name:"Kiambu Town",travelMin:5},{name:"Thika",travelMin:15},{name:"Ruiru",travelMin:12},
+    {name:"Kikuyu",travelMin:10},{name:"Limuru",travelMin:18},{name:"Githunguri",travelMin:20},
+    {name:"Gatundu",travelMin:22},{name:"Lari",travelMin:25},{name:"Karuri",travelMin:12},
+    {name:"Kabete",travelMin:10},{name:"Ndenderu",travelMin:14},
+  ]},
+  "Machakos": { centre: "Machakos Town", subs: [
+    {name:"Machakos Town",travelMin:5},{name:"Athi River",travelMin:12},{name:"Mavoko",travelMin:14},
+    {name:"Kangundo",travelMin:20},{name:"Kathiani",travelMin:18},{name:"Masinga",travelMin:30},
+    {name:"Yatta",travelMin:25},{name:"Mutituni",travelMin:15},
+  ]},
+  "Kajiado": { centre: "Kajiado Town", subs: [
+    {name:"Kajiado Town",travelMin:5},{name:"Ongata Rongai",travelMin:12},{name:"Kitengela",travelMin:15},
+    {name:"Ngong",travelMin:18},{name:"Loitokitok",travelMin:60},{name:"Namanga",travelMin:70},
+    {name:"Kiserian",travelMin:20},{name:"Isinya",travelMin:25},
+  ]},
+  "Muranga": { centre: "Murang'a Town", subs: [
+    {name:"Murang'a Town",travelMin:5},{name:"Kangema",travelMin:15},{name:"Mathioya",travelMin:18},
+    {name:"Kiharu",travelMin:10},{name:"Kigumo",travelMin:20},{name:"Maragua",travelMin:22},
+    {name:"Kahuro",travelMin:14},{name:"Kandara",travelMin:25},
+  ]},
+  "Nyeri": { centre: "Nyeri Town", subs: [
+    {name:"Nyeri Town",travelMin:5},{name:"Tetu",travelMin:12},{name:"Kieni West",travelMin:20},
+    {name:"Kieni East",travelMin:22},{name:"Mathira",travelMin:15},{name:"Othaya",travelMin:18},
+    {name:"Mukurweini",travelMin:20},{name:"Naro Moru",travelMin:25},
+  ]},
+  "Meru": { centre: "Meru Town", subs: [
+    {name:"Meru Town",travelMin:5},{name:"Imenti North",travelMin:10},{name:"Imenti South",travelMin:12},
+    {name:"Imenti Central",travelMin:8},{name:"Tigania East",travelMin:20},{name:"Tigania West",travelMin:18},
+    {name:"Igembe North",travelMin:25},{name:"Igembe South",travelMin:22},{name:"Buuri",travelMin:15},
+  ]},
+  "Embu": { centre: "Embu Town", subs: [
+    {name:"Embu Town",travelMin:5},{name:"Manyatta",travelMin:8},{name:"Runyenjes",travelMin:18},
+    {name:"Mbeere North",travelMin:25},{name:"Mbeere South",travelMin:22},
+  ]},
+  "Kitui": { centre: "Kitui Town", subs: [
+    {name:"Kitui Town",travelMin:5},{name:"Mwingi",travelMin:30},{name:"Kitui West",travelMin:15},
+    {name:"Kitui Rural",travelMin:12},{name:"Mutomo",travelMin:35},{name:"Kyuso",travelMin:40},
+  ]},
+  "Makueni": { centre: "Wote Town", subs: [
+    {name:"Wote Town",travelMin:5},{name:"Kibwezi",travelMin:25},{name:"Makindu",travelMin:30},
+    {name:"Kilome",travelMin:20},{name:"Kaiti",travelMin:15},{name:"Mukaa",travelMin:18},
+  ]},
+  "Narok": { centre: "Narok Town", subs: [
+    {name:"Narok Town",travelMin:5},{name:"Kilgoris",travelMin:30},{name:"Emurua Dikirr",travelMin:25},
+    {name:"Narok North",travelMin:15},{name:"Narok South",travelMin:20},{name:"Transmara",travelMin:35},
+  ]},
+  "Kericho": { centre: "Kericho Town", subs: [
+    {name:"Kericho Town",travelMin:5},{name:"Ainamoi",travelMin:8},{name:"Belgut",travelMin:15},
+    {name:"Kipkelion East",travelMin:20},{name:"Kipkelion West",travelMin:22},{name:"Soin / Sigowet",travelMin:18},
+  ]},
+  "Bomet": { centre: "Bomet Town", subs: [
+    {name:"Bomet Town",travelMin:5},{name:"Bomet Central",travelMin:5},{name:"Chepalungu",travelMin:15},
+    {name:"Sotik",travelMin:18},{name:"Konoin",travelMin:20},{name:"Mutarakwa",travelMin:12},
+  ]},
+  "Nyamira": { centre: "Nyamira Town", subs: [
+    {name:"Nyamira Town",travelMin:5},{name:"Borabu",travelMin:15},{name:"Manga",travelMin:12},
+    {name:"Masaba North",travelMin:18},{name:"Masaba South",travelMin:20},
+  ]},
+  "Kisii": { centre: "Kisii Town", subs: [
+    {name:"Kisii Town",travelMin:5},{name:"Bomachoge Borabu",travelMin:15},{name:"Bonchari",travelMin:12},
+    {name:"Kitutu Chache North",travelMin:8},{name:"Kitutu Chache South",travelMin:10},
+    {name:"Nyaribari Masaba",travelMin:14},{name:"Nyaribari Chache",travelMin:12},{name:"Gucha",travelMin:18},
+  ]},
+  "Migori": { centre: "Migori Town", subs: [
+    {name:"Migori Town",travelMin:5},{name:"Rongo",travelMin:15},{name:"Awendo",travelMin:18},
+    {name:"Suna East",travelMin:8},{name:"Suna West",travelMin:10},{name:"Uriri",travelMin:20},
+    {name:"Nyatike",travelMin:25},{name:"Kuria East",travelMin:30},{name:"Kuria West",travelMin:28},
+  ]},
+  "Homa Bay": { centre: "Homa Bay Town", subs: [
+    {name:"Homa Bay Town",travelMin:5},{name:"Rangwe",travelMin:15},{name:"Ndhiwa",travelMin:20},
+    {name:"Mbita",travelMin:25},{name:"Suba North",travelMin:30},{name:"Suba South",travelMin:28},
+    {name:"Kasipul",travelMin:18},{name:"Karachuonyo",travelMin:15},
+  ]},
+  "Siaya": { centre: "Siaya Town", subs: [
+    {name:"Siaya Town",travelMin:5},{name:"Bondo",travelMin:15},{name:"Ugenya",travelMin:18},
+    {name:"Ugunja",travelMin:20},{name:"Gem",travelMin:22},{name:"Rarieda",travelMin:25},
+    {name:"Alego Usonga",travelMin:12},
+  ]},
+  "Vihiga": { centre: "Vihiga Town", subs: [
+    {name:"Vihiga Town",travelMin:5},{name:"Sabatia",travelMin:10},{name:"Hamisi",travelMin:15},
+    {name:"Luanda",travelMin:12},{name:"Emuhaya",travelMin:18},
+  ]},
+  "Kakamega": { centre: "Kakamega Town", subs: [
+    {name:"Kakamega Town",travelMin:5},{name:"Lurambi",travelMin:8},{name:"Navakholo",travelMin:15},
+    {name:"Mumias West",travelMin:20},{name:"Mumias East",travelMin:22},{name:"Matungu",travelMin:25},
+    {name:"Butere",travelMin:18},{name:"Khwisero",travelMin:20},{name:"Shinyalu",travelMin:14},
+    {name:"Ikolomani",travelMin:12},
+  ]},
+  "Bungoma": { centre: "Bungoma Town", subs: [
+    {name:"Bungoma Town",travelMin:5},{name:"Kanduyi",travelMin:8},{name:"Webuye East",travelMin:15},
+    {name:"Webuye West",travelMin:18},{name:"Kimilili",travelMin:20},{name:"Mt Elgon",travelMin:30},
+    {name:"Sirisia",travelMin:22},{name:"Kabuchai",travelMin:18},{name:"Bumula",travelMin:20},
+    {name:"Tongaren",travelMin:12},
+  ]},
+  "Busia": { centre: "Busia Town", subs: [
+    {name:"Busia Town",travelMin:5},{name:"Teso North",travelMin:12},{name:"Teso South",travelMin:15},
+    {name:"Nambale",travelMin:20},{name:"Matayos",travelMin:10},{name:"Butula",travelMin:18},
+    {name:"Funyula",travelMin:22},
+  ]},
+  "Trans Nzoia": { centre: "Kitale Town", subs: [
+    {name:"Kitale Town",travelMin:5},{name:"Saboti",travelMin:12},{name:"Kiminini",travelMin:10},
+    {name:"Kwanza",travelMin:15},{name:"Cherangany",travelMin:18},
+  ]},
+  "Uasin Gishu": { centre: "Eldoret Town", subs: [
+    {name:"Eldoret Town",travelMin:5},{name:"Ainabkoi",travelMin:12},{name:"Kapseret",travelMin:10},
+    {name:"Kesses",travelMin:15},{name:"Moiben",travelMin:18},{name:"Turbo",travelMin:20},
+    {name:"Soy",travelMin:22},
+  ]},
+  "Elgeyo-Marakwet": { centre: "Iten Town", subs: [
+    {name:"Iten Town",travelMin:5},{name:"Keiyo North",travelMin:12},{name:"Keiyo South",travelMin:15},
+    {name:"Marakwet East",travelMin:20},{name:"Marakwet West",travelMin:22},
+  ]},
+  "Nandi": { centre: "Kapsabet Town", subs: [
+    {name:"Kapsabet Town",travelMin:5},{name:"Chesumei",travelMin:10},{name:"Emgwen",travelMin:8},
+    {name:"Mosop",travelMin:15},{name:"Nandi Hills",travelMin:12},{name:"Aldai",travelMin:18},
+  ]},
+  "Baringo": { centre: "Kabarnet Town", subs: [
+    {name:"Kabarnet Town",travelMin:5},{name:"Eldama Ravine",travelMin:20},{name:"Mogotio",travelMin:22},
+    {name:"Baringo North",travelMin:25},{name:"Baringo South",travelMin:15},{name:"Tiaty",travelMin:40},
+  ]},
+  "Laikipia": { centre: "Nanyuki Town", subs: [
+    {name:"Nanyuki Town",travelMin:5},{name:"Nyahururu",travelMin:25},{name:"Rumuruti",travelMin:20},
+    {name:"Laikipia East",travelMin:15},{name:"Laikipia North",travelMin:30},{name:"Laikipia West",travelMin:22},
+  ]},
+  "Nyandarua": { centre: "Ol Kalou Town", subs: [
+    {name:"Ol Kalou Town",travelMin:5},{name:"Kinangop",travelMin:18},{name:"Kipipiri",travelMin:20},
+    {name:"Ndaragwa",travelMin:22},{name:"Mirangine",travelMin:15},
+  ]},
+  "Kirinyaga": { centre: "Kerugoya Town", subs: [
+    {name:"Kerugoya Town",travelMin:5},{name:"Mwea",travelMin:15},{name:"Gichugu",travelMin:12},
+    {name:"Ndia",travelMin:10},{name:"Kirinyaga Central",travelMin:8},
+  ]},
+  "Tharaka-Nithi": { centre: "Chuka Town", subs: [
+    {name:"Chuka Town",travelMin:5},{name:"Maara",travelMin:15},{name:"Tharaka North",travelMin:25},
+    {name:"Tharaka South",travelMin:22},{name:"Igambang'ombe",travelMin:18},
+  ]},
+  "Isiolo": { centre: "Isiolo Town", subs: [
+    {name:"Isiolo Town",travelMin:5},{name:"Isiolo North",travelMin:15},{name:"Isiolo South",travelMin:12},
+    {name:"Garbatulla",travelMin:35},{name:"Merti",travelMin:40},
+  ]},
+  "Marsabit": { centre: "Marsabit Town", subs: [
+    {name:"Marsabit Town",travelMin:5},{name:"Moyale",travelMin:60},{name:"North Horr",travelMin:70},
+    {name:"Saku",travelMin:15},{name:"Laisamis",travelMin:45},
+  ]},
+  "Wajir": { centre: "Wajir Town", subs: [
+    {name:"Wajir Town",travelMin:5},{name:"Wajir North",travelMin:20},{name:"Wajir South",travelMin:18},
+    {name:"Wajir East",travelMin:22},{name:"Wajir West",travelMin:15},{name:"Eldas",travelMin:30},
+    {name:"Tarbaj",travelMin:35},
+  ]},
+  "Mandera": { centre: "Mandera Town", subs: [
+    {name:"Mandera Town",travelMin:5},{name:"Mandera East",travelMin:12},{name:"Mandera North",travelMin:18},
+    {name:"Mandera South",travelMin:15},{name:"Mandera West",travelMin:20},{name:"Lafey",travelMin:30},
+    {name:"Banissa",travelMin:25},
+  ]},
+  "Garissa": { centre: "Garissa Town", subs: [
+    {name:"Garissa Town",travelMin:5},{name:"Hulugho",travelMin:25},{name:"Ijara",travelMin:30},
+    {name:"Balambala",travelMin:20},{name:"Lagdera",travelMin:22},{name:"Dadaab",travelMin:35},
+    {name:"Fafi",travelMin:28},
+  ]},
+  "Tana River": { centre: "Hola Town", subs: [
+    {name:"Hola Town",travelMin:5},{name:"Bura",travelMin:25},{name:"Galole",travelMin:20},
+    {name:"Garsen",travelMin:30},
+  ]},
+  "Lamu": { centre: "Lamu Town", subs: [
+    {name:"Lamu Town",travelMin:5},{name:"Lamu East",travelMin:15},{name:"Lamu West",travelMin:12},
+  ]},
+  "Kilifi": { centre: "Kilifi Town", subs: [
+    {name:"Kilifi Town",travelMin:5},{name:"Malindi",travelMin:25},{name:"Kaloleni",travelMin:15},
+    {name:"Rabai",travelMin:18},{name:"Ganze",travelMin:22},{name:"Magarini",travelMin:28},
+    {name:"Bahari",travelMin:12},
+  ]},
+  "Kwale": { centre: "Kwale Town", subs: [
+    {name:"Kwale Town",travelMin:5},{name:"Msambweni",travelMin:15},{name:"Kinango",travelMin:20},
+    {name:"Lungalunga",travelMin:35},{name:"Matuga",travelMin:12},
+  ]},
+  "Taita-Taveta": { centre: "Voi Town", subs: [
+    {name:"Voi Town",travelMin:5},{name:"Taveta",travelMin:30},{name:"Wundanyi",travelMin:20},
+    {name:"Mwatate",travelMin:18},{name:"Kilindoni",travelMin:25},
+  ]},
+  "West Pokot": { centre: "Kapenguria Town", subs: [
+    {name:"Kapenguria Town",travelMin:5},{name:"Sigor",travelMin:20},{name:"Kacheliba",travelMin:30},
+    {name:"Pokot South",travelMin:22},
+  ]},
+  "Samburu": { centre: "Maralal Town", subs: [
+    {name:"Maralal Town",travelMin:5},{name:"Samburu East",travelMin:20},{name:"Samburu North",travelMin:25},
+    {name:"Samburu West",travelMin:18},
+  ]},
+  "Turkana": { centre: "Lodwar Town", subs: [
+    {name:"Lodwar Town",travelMin:5},{name:"Turkana Central",travelMin:10},{name:"Turkana East",travelMin:25},
+    {name:"Turkana North",travelMin:35},{name:"Turkana South",travelMin:20},{name:"Turkana West",travelMin:30},
+  ]},
+};
+
+// Populate county dropdown
+function populateCounties() {
+  const sel = document.getElementById('f2-county');
+  Object.keys(COUNTY_DATA).sort().forEach(c => {
+    const o = document.createElement('option');
+    o.value = c; o.textContent = c;
+    sel.appendChild(o);
+  });
+}
+
+function onCountyChange() {
+  const county = document.getElementById('f2-county').value;
+  const subSel = document.getElementById('f2-sublocation');
+  subSel.innerHTML = '<option value="">— Select sub-location —</option>';
+  document.getElementById('travel-time-note').style.display = 'none';
+  if (!county || !COUNTY_DATA[county]) { subSel.disabled = true; return; }
+  subSel.disabled = false;
+  COUNTY_DATA[county].subs.forEach(s => {
+    const o = document.createElement('option');
+    o.value = s.name;
+    o.dataset.travel = s.travelMin;
+    // Traffic adjustment: +40% on base time
+    const withTraffic = Math.round(s.travelMin * 1.4);
+    o.textContent = `${s.name}  (~${withTraffic} min travel)`;
+    subSel.appendChild(o);
+  });
+}
+
+function onSubLocationChange() {
+  const subSel = document.getElementById('f2-sublocation');
+  const opt = subSel.options[subSel.selectedIndex];
+  const note = document.getElementById('travel-time-note');
+  if (!opt || !opt.dataset.travel) { note.style.display = 'none'; return; }
+  const base = parseInt(opt.dataset.travel);
+  const withTraffic = Math.round(base * 1.4);
+  document.getElementById('travel-time-text').textContent =
+    `Estimated travel time to ${opt.value}: ~${withTraffic} minutes (includes Nairobi traffic adjustment). ` +
+    `Actual arrival time will be communicated to you and reflected in your waybill.`;
+  note.style.display = 'block';
+}
+
+// ── CALENDAR ──
+let selectedUrgency = null;
+let selectedDate = null;
+let selectedTime = null;
+let selectedCategory = null;
+
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const DAYS   = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const WORK_TIMES_FULL = ['8:00 AM','9:00 AM','10:00 AM','11:00 AM','2:00 PM','3:00 PM','4:00 PM','5:00 PM'];
+const WORK_TIMES_TODAY_ALL = ['8:00 AM','9:00 AM','10:00 AM','11:00 AM','2:00 PM','3:00 PM','4:00 PM','5:00 PM'];
+
+function getAvailableTimesToday() {
+  const now = new Date();
+  const h = now.getHours();
+  const m = now.getMinutes();
+  const currentMins = h*60 + m;
+  return WORK_TIMES_FULL.filter(t => {
+    let [time, ampm] = t.split(' ');
+    let [th, tm] = time.split(':').map(Number);
+    if (ampm === 'PM' && th !== 12) th += 12;
+    if (ampm === 'AM' && th === 12) th = 0;
+    return (th*60 + tm) > currentMins + 30; // at least 30 min from now
+  });
+}
+
+function buildCalendar(mode) {
+  // mode: 'today'|'tomorrow'|'thisweek'|'custom'
+  const panel = document.getElementById('calendar-panel');
+  panel.style.display = 'block';
+
+  const today = new Date();
+  today.setHours(0,0,0,0);
+
+  let calDays = [];
+  if (mode === 'today') {
+    calDays = [new Date(today)];
+    selectedDate = formatDate(today);
+  } else if (mode === 'tomorrow') {
+    const tmrw = new Date(today); tmrw.setDate(today.getDate()+1);
+    calDays = [tmrw];
+    selectedDate = formatDate(tmrw);
+  } else if (mode === 'thisweek') {
+    for (let i=1; i<=7; i++) {
+      const d = new Date(today); d.setDate(today.getDate()+i);
+      calDays.push(d);
+    }
+  } else if (mode === 'custom') {
+    for (let i=0; i<=13; i++) {
+      const d = new Date(today); d.setDate(today.getDate()+i);
+      calDays.push(d);
+    }
+  }
+
+  let dayHTML = '';
+  calDays.forEach(d => {
+    const isToday = d.getTime() === today.getTime();
+    const isPast = d < today;
+    const fmtd = formatDate(d);
+    const isSelected = fmtd === selectedDate;
+    let cls = 'cal-day';
+    if (isPast) cls += ' past disabled';
+    if (isToday) cls += ' today-marker';
+    if (isSelected) cls += ' selected';
+    const clickable = !isPast ? `onclick="selectCalDay('${fmtd}','${mode}')"` : '';
+    dayHTML += `<div class="${cls}" ${clickable}>
+      <div class="day-name">${DAYS[d.getDay()]}</div>
+      <div class="day-num">${d.getDate()}</div>
+      <div class="day-month">${MONTHS[d.getMonth()].substring(0,3)}</div>
+      ${isToday ? '<div class="today-tag">TODAY</div>' : ''}
+    </div>`;
+  });
+
+  const availTimes = mode === 'today' ? getAvailableTimesToday() : WORK_TIMES_FULL;
+  let timeOpts = `<option value="">— Select time —</option>`;
+  availTimes.forEach(t => { timeOpts += `<option value="${t}" ${t===selectedTime?'selected':''}>${t}</option>`; });
+
+  const showDate = mode === 'today' || mode === 'tomorrow';
+  const dateDisplay = selectedDate ? ` — <strong>${formatDateDisplay(new Date(selectedDate))}</strong>` : '';
+
+  panel.innerHTML = `
+    <div class="calendar-container">
+      <div class="calendar-header">
+        <div>
+          <div class="calendar-title">
+            ${mode==='today'?'⚡ Today':mode==='tomorrow'?'📅 Tomorrow':mode==='thisweek'?'🗓️ Choose a day this week':'✏️ Choose your preferred date'}
+            ${showDate ? dateDisplay : ''}
+          </div>
+          <div class="calendar-subtitle">Working hours: 8:00 AM – 12:00 PM and 2:00 PM – 6:00 PM daily</div>
+        </div>
+      </div>
+      <div class="cal-days-grid">${dayHTML}</div>
+      <div class="time-picker-row">
+        <div class="field-group">
+          <div class="field-label-row">
+            <label class="field-label">Preferred Start Time <span class="field-required">*</span></label>
+            <div class="tooltip-wrap"><div class="tooltip-icon">?</div>
+            <div class="tooltip-box">${mode==='today'?'Only future time slots from now are available.':'Select your preferred start time within working hours.'}</div></div>
+          </div>
+          <select class="field-select" id="start-time-sel" onchange="onTimeSelect(this.value)">${timeOpts}</select>
+        </div>
+        <div class="field-group">
+          <div class="field-label-row"><label class="field-label">Selected Date</label></div>
+          <input class="field-input" type="text" readonly
+            value="${selectedDate ? formatDateDisplay(new Date(selectedDate)) : 'Click a day to select'}"
+            id="selected-date-display" style="background:#F0F6FB;color:var(--teal);font-weight:600;"/>
+        </div>
+      </div>
+      ${mode==='today' && availTimes.length===0 ?
+        '<div class="time-note">⚠️ No more available time slots for today. Please select Tomorrow or another date.</div>' :
+        '<div class="time-note">ℹ️ If your total job duration exceeds available hours in a day, it will automatically continue on the next working day.</div>'
+      }
+      <div class="traffic-note">🚗 Travel time to your service location will be added to your schedule. Actual travel time will be confirmed in your waybill and adjusted for traffic conditions.</div>
+    </div>`;
+  updateSummary();
+}
+
+function selectCalDay(dateStr, mode) {
+  selectedDate = dateStr;
+  // Rebuild to reflect selection
+  buildCalendar(mode);
+  autoSave();
+  updateSummary();
+}
+
+function onTimeSelect(val) {
+  selectedTime = val;
+  autoSave();
+  updateSummary();
+}
+
+function formatDate(d) {
+  return d.getFullYear()+'-'+ String(d.getMonth()+1).padStart(2,'0')+'-'+ String(d.getDate()).padStart(2,'0');
+}
+function formatDateDisplay(d) {
+  if (isNaN(d.getTime())) return '—';
+  return `${DAYS[d.getDay()]} ${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+function selectUrgency(type) {
+  selectedUrgency = type;
+  ['today','tomorrow','thisweek','custom'].forEach(t => {
+    document.getElementById('urg-'+t).classList.toggle('selected', t===type);
+  });
+  if (type === 'today') {
+    selectedDate = formatDate(new Date());
+  } else if (type === 'tomorrow') {
+    const tmrw = new Date(); tmrw.setDate(tmrw.getDate()+1);
+    selectedDate = formatDate(tmrw);
+  } else {
+    selectedDate = null;
+  }
+  selectedTime = null;
+  buildCalendar(type);
+  autoSave();
+  updateSummary();
+}
+
+// ── CATEGORY ──
+const categoryData = {
+  Domestic:{charge:10000,note:'Domestic pricing: rates reduced by Ksh.20,000 on drilling, Ksh.2,500 on pipe lengths, Ksh.40,000 on tanks vs Commercial rates.'},
+  Commercial:{charge:30000,note:'Standard Commercial pricing. All base rates on the next page apply directly.'},
+  Industrial:{charge:50000,note:'Industrial pricing: rates increased by Ksh.20,000 on drilling, Ksh.2,500 on pipe lengths, Ksh.40,000 on tanks vs Commercial rates.'}
+};
+function selectCategory(cat) {
+  selectedCategory = cat;
+  ['Domestic','Commercial','Industrial'].forEach(c => {
+    document.getElementById('cat-'+c.toLowerCase()).classList.toggle('selected', c===cat);
+  });
+  document.getElementById('category-info').style.display = 'block';
+  document.getElementById('category-info-text').textContent = categoryData[cat].note;
+  autoSave(); updateSummary();
+}
+
+// ── CONTACT HANDLE ──
+function toggleContactHandle() {
+  const method = document.getElementById('f1-contact-method').value;
+  const wrap = document.getElementById('contact-handle-wrap');
+  const note = document.getElementById('contact-method-note');
+  const handleInput = document.getElementById('f1-contact-handle');
+  if (['Instagram','Facebook','Twitter/X'].includes(method)) {
+    wrap.style.display = 'block';
+    handleInput.placeholder = method==='Instagram'?'@yourhandle':method==='Facebook'?'Facebook name':'@twitterhandle';
+    note.style.display = 'none';
+  } else {
+    wrap.style.display = 'none';
+    if (method) {
+      note.textContent = `We will contact you via ${method} on the details provided above.`;
+      note.style.display = 'block';
+    } else { note.style.display = 'none'; }
+  }
+}
+
+// ── SUMMARY ──
+function updateSummary() {
+  const fn = document.getElementById('f1-firstname').value.trim();
+  const ln = document.getElementById('f1-lastname').value.trim();
+  const phone = document.getElementById('f1-phone').value.trim();
+  const email = document.getElementById('f1-email').value.trim();
+  const cm = document.getElementById('f1-contact-method').value;
+  const ch = document.getElementById('f1-contact-handle').value.trim();
+  const county = document.getElementById('f2-county').value;
+  const sub = document.getElementById('f2-sublocation').value;
+  const specific = document.getElementById('f2-specific').value.trim();
+  const rows = [];
+  const row = (k,v) => v ? `<div class="summary-row"><span class="summary-key">${k}</span><span class="summary-val">${v}</span></div>` : '';
+  if (fn||ln) rows.push(row('Full Name',[fn,ln].filter(Boolean).join(' ')));
+  if (phone) rows.push(row('Phone','+254 '+phone));
+  if (email) rows.push(row('Email',email));
+  if (cm) rows.push(row('Preferred Contact',ch?`${cm} — ${ch}`:cm));
+  if (county) rows.push(row('County',county));
+  if (sub) rows.push(row('Sub-Location',sub));
+  if (specific) rows.push(row('Exact Location',specific.length>50?specific.substring(0,50)+'…':specific));
+  if (selectedUrgency) {
+    const ul={today:'Today',tomorrow:'Tomorrow',thisweek:'This Week',custom:'Custom Date'};
+    let u=ul[selectedUrgency];
+    if (selectedDate) u+=` · ${formatDateDisplay(new Date(selectedDate))}`;
+    if (selectedTime) u+=` at ${selectedTime}`;
+    rows.push(row('Urgency',u));
+  }
+  if (selectedCategory) {
+    rows.push(row('Client Category',selectedCategory));
+    rows.push(row('Category Charge','Ksh. '+categoryData[selectedCategory].charge.toLocaleString()));
+  }
+  const el = document.getElementById('summary-content');
+  el.innerHTML = rows.length ? rows.join('') : '<div class="summary-placeholder">Fill in the forms above to see your registration summary here.</div>';
+}
+
+// ── SAVE ──
+const KEY = 'rwsc_page1_data';
+function collectData() {
+  return {
+    firstname:document.getElementById('f1-firstname').value,
+    lastname:document.getElementById('f1-lastname').value,
+    phone:document.getElementById('f1-phone').value,
+    email:document.getElementById('f1-email').value,
+    contactMethod:document.getElementById('f1-contact-method').value,
+    contactHandle:document.getElementById('f1-contact-handle').value,
+    county:document.getElementById('f2-county').value,
+    sublocation:document.getElementById('f2-sublocation').value,
+    specific:document.getElementById('f2-specific').value,
+    urgency:selectedUrgency,
+    selectedDate,selectedTime,
+    category:selectedCategory,
+    savedAt:new Date().toISOString()
+  };
+}
+let asTimer=null;
+function autoSave(){
+  clearTimeout(asTimer);
+  asTimer=setTimeout(()=>{try{localStorage.setItem(KEY,JSON.stringify(collectData()));}catch(e){}},600);
+}
+function saveAll(){
+  try{localStorage.setItem(KEY,JSON.stringify(collectData()));}catch(e){}
+  showToast('Progress saved ✓');
+}
+function clearForm(f){
+  if(f==='form1'){
+    ['f1-firstname','f1-lastname','f1-phone','f1-email','f1-contact-handle'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('f1-contact-method').value='';
+    document.getElementById('contact-handle-wrap').style.display='none';
+    document.getElementById('contact-method-note').style.display='none';
+  } else if(f==='form2'){
+    document.getElementById('f2-county').value='';
+    document.getElementById('f2-sublocation').innerHTML='<option value="">— Select county first —</option>';
+    document.getElementById('f2-sublocation').disabled=true;
+    document.getElementById('f2-specific').value='';
+    document.getElementById('travel-time-note').style.display='none';
+    selectedUrgency=null;selectedDate=null;selectedTime=null;
+    ['today','tomorrow','thisweek','custom'].forEach(t=>document.getElementById('urg-'+t).classList.remove('selected'));
+    document.getElementById('calendar-panel').style.display='none';
+  } else if(f==='form3'){
+    selectedCategory=null;
+    ['domestic','commercial','industrial'].forEach(c=>document.getElementById('cat-'+c).classList.remove('selected'));
+    document.getElementById('category-info').style.display='none';
+  }
+  autoSave();updateSummary();showToast('Form cleared');
+}
+
+function restoreData(){
+  try{
+    const d=JSON.parse(localStorage.getItem(KEY)||'{}');
+    if(d.firstname) document.getElementById('f1-firstname').value=d.firstname;
+    if(d.lastname) document.getElementById('f1-lastname').value=d.lastname;
+    if(d.phone) document.getElementById('f1-phone').value=d.phone;
+    if(d.email) document.getElementById('f1-email').value=d.email;
+    if(d.contactMethod){document.getElementById('f1-contact-method').value=d.contactMethod;toggleContactHandle();}
+    if(d.contactHandle) document.getElementById('f1-contact-handle').value=d.contactHandle;
+    if(d.county){
+      document.getElementById('f2-county').value=d.county;
+      onCountyChange();
+      if(d.sublocation){document.getElementById('f2-sublocation').value=d.sublocation;onSubLocationChange();}
+    }
+    if(d.specific) document.getElementById('f2-specific').value=d.specific;
+    if(d.urgency){
+      selectedDate=d.selectedDate||null;
+      selectedTime=d.selectedTime||null;
+      selectUrgency(d.urgency);
+    }
+    if(d.category) selectCategory(d.category);
+    updateSummary();
+  }catch(e){}
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  document.getElementById('toast-msg').textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+function goToPage2(){
+  const d=collectData();
+  if(!d.firstname||!d.lastname){showToast('⚠ Please enter your full name');return;}
+  if(!d.phone){showToast('⚠ Please enter your phone number');return;}
+  if(!d.email){showToast('⚠ Please enter your email address');return;}
+  if(!d.contactMethod){showToast('⚠ Please select your preferred contact method');return;}
+  if(!d.county||!d.sublocation){showToast('⚠ Please complete your location details');return;}
+  if(!d.urgency){showToast('⚠ Please select your service urgency');return;}
+  if(!d.selectedDate){showToast('⚠ Please select a service date');return;}
+  if(!d.selectedTime){showToast('⚠ Please select a preferred start time');return;}
+  if(!d.category){showToast('⚠ Please select your client category');return;}
+  saveAll();
+  showToast('✓ Saved — proceeding to Service Booking…');
+  setTimeout(()=>{window.location.replace('service-booking.html');},1200);
+}
+
+populateCounties();
+restoreData();
+</script>
+</body>
+</html>
